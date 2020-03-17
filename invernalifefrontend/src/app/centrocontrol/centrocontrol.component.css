@@ -1,0 +1,26 @@
+.card {
+    margin:10%;
+    width: 100%;
+}
+
+header {
+    width: 100%;
+    margin-left: 70%;
+    margin-top: 10%;
+}
+
+#titulo {
+    text-align: center;
+}
+
+#regarplanta {
+    margin-left: 12%;
+}
+
+#encendervent {
+    margin-left: 3%;
+}
+
+.container .card {
+    margin-left: 75%;
+}
