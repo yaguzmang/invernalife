@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "invernalife": {
+      "hosting": {
+        "invernalifefrontend": [
+          "invernalife"
+        ]
+      }
+    }
+  }
+}

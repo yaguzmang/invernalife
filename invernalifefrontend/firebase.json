@@ -1,0 +1,19 @@
+{
+  "hosting": [
+    {
+      "target": "invernalifefrontend",
+      "public": "dist/invernalifefrontend",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
+}
