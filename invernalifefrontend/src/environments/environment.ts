@@ -5,14 +5,14 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: "AIzaSyCzb0FNzXth20ODSK9jYMHMH1XWplTMUL4",
-    authDomain: "invernalife.firebaseapp.com",
-    databaseURL: "https://invernalife.firebaseio.com",
-    projectId: "invernalife",
-    storageBucket: "invernalife.appspot.com",
-    messagingSenderId: "130401056466",
-    appId: "1:130401056466:web:7d484807025b9f751a1f0b",
-    measurementId: "G-2W5CR4VYNP"
+    apiKey: 'AIzaSyCzb0FNzXth20ODSK9jYMHMH1XWplTMUL4',
+    authDomain: 'nvernalife.firebaseapp.com',
+    databaseURL: 'https://invernalife.firebaseio.com',
+    projectId: 'invernalife',
+    storageBucket: 'invernalife.appspot.com',
+    messagingSenderId: '130401056466',
+    appId: '1:130401056466:web:7d484807025b9f751a1f0b',
+    measurementId: 'G-2W5CR4VYNP'
   }
 };
 
