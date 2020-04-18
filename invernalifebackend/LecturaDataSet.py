@@ -2,24 +2,15 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
 import random
-import time
 
-tiempo = time.strftime("%d-%m-%Y %H:%M:%S", time.localtime())
 ruta = '/Users/Santiago/OneDrive - Universidad EAFIT/EAFIT 2020-1/Proyecto Integrador/INVERNALIFE/DATASETS/DATASET1.txt'
 archivo = open(ruta, 'r')
 cont=0
-aux=0
-
-
-
 listaDatos=[]
 lista = (archivo.read().split('<http://datos.santander.es/api/datos/sensores_smart_irrigation'))
-
 cred = credentials.Certificate('C:/Users/Santiago/OneDrive - Universidad EAFIT/EAFIT 2020-1/Proyecto Integrador/INVERNALIFE/JSON/invernalife-firebase-adminsdk-r6fz2-2c4537699b.json')
 firebase_admin.initialize_app(cred, {'databaseURL': 'https://invernalife.firebaseio.com/'})
 ref = db.reference('customer')
-
-
 
 for i in range(0,len(lista)):
     
@@ -37,9 +28,6 @@ for i in range(0,len(lista)):
         listaDatos.insert(cont,dato)
         cont=cont+1
         dato =''
-
-        
-        
 
 for i in range(0,len(listaDatos)):
     invernadero_ref = ref.child(listaDatos[i].split('|')[2])
