@@ -55,7 +55,6 @@ def EnviarOnOff():
 def ObtenerOnOff():
     threading.Timer(5.0, ObtenerOnOff).start()
     diccionario=ref2.get()
-    #print(json.dumps(ref2.get(), indent=4, sort_keys=True))
     planta = "planta 1"
     luz = diccionario["c1ntr1l"][planta]["LUZ"]
     ventilador = diccionario["c1ntr1l"][planta]["VENTILADOR"]
