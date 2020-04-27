@@ -1,4 +1,4 @@
-.card {
+.card  {
     margin:10%;
     width: 100%;
 }
@@ -9,6 +9,14 @@ header {
     margin-top: 10%;
 }
 
+.container {
+    width: 100%;
+}
+
 #titulo {
+    text-align: center;
+}
+
+#titulo2 {
     text-align: center;
 }

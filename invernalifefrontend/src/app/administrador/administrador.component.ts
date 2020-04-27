@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -8,12 +9,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdministradorComponent implements OnInit {
 
+  hlp1 = '23:45:34';
+
+  dataHorarios = {
+    'planta 1': {
+      'HORARIO-LUZ': '',
+      'HORARIO-VENTILADOR': ''
+    },
+    'planta 2': {
+      'HORARIO-LUZ': '',
+      'HORARIO-VENTILADOR': ''
+    },
+    'regadora': {
+      'HORARIO-REGADORA': ''
+    }
+  };
   
   constructor() { }
 
   numeroNotificaciones: Number = 0;
 
   ngOnInit(): void {
+  }
+
+  actualizarHorarios(frm: NgForm) {
+    console.log(frm.value);
   }
 
 }

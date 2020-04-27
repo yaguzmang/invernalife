@@ -21,6 +21,12 @@ export class CentrocontrolComponent implements OnInit {
   btn1p2Txt = '';
   btn2p2Txt = '';
 
+  hlp1 = '';
+  hvp1 = '';
+  hlp2 = '';
+  hvp2 = '';
+  hrg = '';
+
   dataInstruction = {
     'planta 1': {
       LUZ: 1,
@@ -51,44 +57,60 @@ export class CentrocontrolComponent implements OnInit {
         let p2 = a['planta 2'];
         let rg = a['regadora'];
 
+        this.hlp1 = p1['HORARIO-LUZ'];
+        this.hvp1 = p1['HORARIO-VENTILADOR'];
+        this.hlp2 = p2['HORARIO-LUZ'];
+        this.hvp2 = p2['HORARIO-VENTILADOR'];
+        this.hrg = rg['HORARIO-REGADORA'];
+
         if (p1['LUZ'] === 1) {
           this.btn1p1 = 'btn-dark';
           this.btn1p1Txt = 'Apagar luz';
+          this.dataInstruction['planta 1'].LUZ = 1;
         } else {
           this.btn1p1 = 'btn-success';
           this.btn1p1Txt = 'Encender luz';
+          this.dataInstruction['planta 1'].LUZ = 0;
         }
 
         if (p1['VENTILADOR'] === 1) {
           this.btn2p1 = 'btn-dark';
           this.btn2p1Txt = 'Apagar ventilación';
+          this.dataInstruction['planta 1'].VENTILADOR = 1;
         } else {
           this.btn2p1 = 'btn-success';
           this.btn2p1Txt = 'Encender ventilación';
+          this.dataInstruction['planta 1'].VENTILADOR = 0;
         }
 
         if (p2['LUZ'] === 1) {
           this.btn1p2 = 'btn-dark';
           this.btn1p2Txt = 'Apagar luz';
+          this.dataInstruction['planta 2'].LUZ = 1;
         } else {
           this.btn1p2 = 'btn-success';
           this.btn1p2Txt = 'Encender luz';
+          this.dataInstruction['planta 2'].LUZ = 0;
         }
 
         if (p2['VENTILADOR'] === 1) {
           this.btn2p2 = 'btn-dark';
           this.btn2p2Txt = 'Apagar ventilación';
+          this.dataInstruction['planta 2'].VENTILADOR = 1;
         } else {
           this.btn2p2 = 'btn-success';
           this.btn2p2Txt = 'Encender ventilación';
+          this.dataInstruction['planta 2'].VENTILADOR = 0;
         }
 
         if (rg['REGADORA'] === 1) {
           this.btnRegador = 'btn-dark';
           this.btnRegadorTxt = 'Apagar regadora';
+          this.dataInstruction['regadora'].REGADORA = 1;
         } else {
           this.btnRegador = 'btn-success';
           this.btnRegadorTxt = 'Encender regadora';
+          this.dataInstruction['regadora'].REGADORA = 0;
         }
         console.log(a);
       });
