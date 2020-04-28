@@ -187,11 +187,13 @@ export class CentrocontrolComponent implements OnInit {
     this.setData();
   }
 
+  // Este método actualiza los valores de los componentes del inverdero con respecto al horario
   setButtons() {
     const today = new Date();
     const hours = today.getHours();
     const minutes = today.getMinutes();
 
+    // Partir los horarios para su posterior comparación
     const hlp1_1 = this.hlp1.split('-')[0];
     const hlp1_2 = this.hlp1.split('-')[1];
     const hlp2_1 = this.hlp2.split('-')[0];
@@ -301,6 +303,7 @@ export class CentrocontrolComponent implements OnInit {
     this.setData();
   }
 
+  // Este método actualiza los valores de los componentes del invernadero en la DB.
   setData() {
     this.service.setData(this.dataInstruction);
   }
