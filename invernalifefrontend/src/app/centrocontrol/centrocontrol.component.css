@@ -27,6 +27,10 @@ header {
     margin-left: 18%;
 }
 
+#lock {
+    margin-left: 45%;
+}
+
 .card-header {
     text-align: center;
 }

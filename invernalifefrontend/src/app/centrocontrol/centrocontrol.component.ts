@@ -14,12 +14,14 @@ export class CentrocontrolComponent implements OnInit {
   btn2p1 = '';
   btn1p2 = '';
   btn2p2 = '';
+  btnLock = '';
 
   btnRegadorTxt = '';
   btn1p1Txt = '';
   btn2p1Txt = '';
   btn1p2Txt = '';
   btn2p2Txt = '';
+  btnLockTxt = '';
 
   hlp1 = '';
   hvp1 = '';
@@ -28,6 +30,7 @@ export class CentrocontrolComponent implements OnInit {
   hrg = '';
 
   dataInstruction = {
+    lock: 1,
     'planta 1': {
       LUZ: 1,
       VENTILADOR: 1
@@ -62,6 +65,16 @@ export class CentrocontrolComponent implements OnInit {
         this.hlp2 = p2['HORARIO-LUZ'];
         this.hvp2 = p2['HORARIO-VENTILADOR'];
         this.hrg = rg['HORARIO-REGADORA'];
+
+        if (a['lock'] === 1) {
+          this.btnLock = 'btn-dark';
+          this.btnLockTxt = 'Unlock';
+          this.dataInstruction.lock = 1;
+        } else {
+          this.btnLock = 'btn-success';
+          this.btnLockTxt = 'lock';
+          this.dataInstruction.lock = 0;
+        }
 
         if (p1['LUZ'] === 1) {
           this.btn1p1 = 'btn-dark';
@@ -114,6 +127,9 @@ export class CentrocontrolComponent implements OnInit {
         }
         console.log(a);
       });
+      if (this.dataInstruction.lock === 1) {
+        this.setButtons();
+      }
     });
   }
 
@@ -159,6 +175,129 @@ export class CentrocontrolComponent implements OnInit {
     } else {
       this.dataInstruction['regadora'].REGADORA = 0;
     }
+    this.setData();
+  }
+
+  setBtnLock() {
+    if (this.btnLock === 'btn-success') {
+      this.dataInstruction.lock = 1;
+    } else {
+      this.dataInstruction.lock = 0;
+    }
+    this.setData();
+  }
+
+  setButtons() {
+    const today = new Date();
+    const hours = today.getHours();
+    const minutes = today.getMinutes();
+
+    const hlp1_1 = this.hlp1.split('-')[0];
+    const hlp1_2 = this.hlp1.split('-')[1];
+    const hlp2_1 = this.hlp2.split('-')[0];
+    const hlp2_2 = this.hlp2.split('-')[1];
+    const hvp1_1 = this.hvp1.split('-')[0];
+    const hvp1_2 = this.hvp1.split('-')[1];
+    const hvp2_1 = this.hvp2.split('-')[0];
+    const hvp2_2 = this.hvp2.split('-')[1];
+    const hrg_1 = this.hrg.split('-')[0];
+    const hrg_2 = this.hrg.split('-')[1];
+
+    // Verificación para la luz de la planta 1
+    if (hours > parseInt(hlp1_1.split(':')[0], 10) && hours < parseInt(hlp1_2.split(':')[0], 10)) {
+      this.dataInstruction['planta 1'].LUZ = 1;
+    } else if (hours === parseInt(hlp1_1.split(':')[0], 10)) {
+      if (minutes >= parseInt(hlp1_1.split(':')[1], 10)) {
+        this.dataInstruction['planta 1'].LUZ = 1;
+      } else {
+        this.dataInstruction['planta 1'].LUZ = 0;
+      }
+    } else if (hours === parseInt(hlp1_2.split(':')[0], 10)) {
+      if (minutes <= parseInt(hlp1_2.split(':')[1], 10)) {
+        this.dataInstruction['planta 1'].LUZ = 1;
+      } else {
+        this.dataInstruction['planta 1'].LUZ = 0;
+      }
+    } else {
+      this.dataInstruction['planta 1'].LUZ = 0;
+    }
+
+    // Verificación para la luz de la planta 2
+    if (hours > parseInt(hlp2_1.split(':')[0], 10) && hours < parseInt(hlp2_2.split(':')[0], 10)) {
+      this.dataInstruction['planta 2'].LUZ = 1;
+    } else if (hours === parseInt(hlp2_1.split(':')[0], 10)) {
+      if (minutes >= parseInt(hlp2_1.split(':')[1], 10)) {
+        this.dataInstruction['planta 2'].LUZ = 1;
+      } else {
+        this.dataInstruction['planta 2'].LUZ = 0;
+      }
+    } else if (hours === parseInt(hlp2_2.split(':')[0], 10)) {
+      if (minutes <= parseInt(hlp2_2.split(':')[1], 10)) {
+        this.dataInstruction['planta 2'].LUZ = 1;
+      } else {
+        this.dataInstruction['planta 2'].LUZ = 0;
+      }
+    } else {
+      this.dataInstruction['planta 2'].LUZ = 0;
+    }
+
+    // Verificación para la ventilación de la planta 1
+    if (hours > parseInt(hvp1_1.split(':')[0], 10) && hours < parseInt(hvp1_2.split(':')[0], 10)) {
+      this.dataInstruction['planta 1'].VENTILADOR = 1;
+    } else if (hours === parseInt(hvp1_1.split(':')[0], 10)) {
+      if (minutes >= parseInt(hvp1_1.split(':')[1], 10)) {
+        this.dataInstruction['planta 1'].VENTILADOR = 1;
+      } else {
+        this.dataInstruction['planta 1'].VENTILADOR = 0;
+      }
+    } else if (hours === parseInt(hvp1_2.split(':')[0], 10)) {
+      if (minutes <= parseInt(hvp1_2.split(':')[1], 10)) {
+        this.dataInstruction['planta 1'].VENTILADOR = 1;
+      } else {
+        this.dataInstruction['planta 1'].VENTILADOR = 0;
+      }
+    } else {
+      this.dataInstruction['planta 1'].VENTILADOR = 0;
+    }
+
+    // Verificación para la ventilación de la planta 2
+    if (hours > parseInt(hvp2_1.split(':')[0], 10) && hours < parseInt(hvp2_2.split(':')[0], 10)) {
+      this.dataInstruction['planta 2'].VENTILADOR = 1;
+    } else if (hours === parseInt(hvp2_1.split(':')[0], 10)) {
+      if (minutes >= parseInt(hvp2_1.split(':')[1], 10)) {
+        this.dataInstruction['planta 2'].VENTILADOR = 1;
+      } else {
+        this.dataInstruction['planta 2'].VENTILADOR = 0;
+      }
+    } else if (hours === parseInt(hvp2_2.split(':')[0], 10)) {
+      if (minutes <= parseInt(hvp2_2.split(':')[1], 10)) {
+        this.dataInstruction['planta 2'].VENTILADOR = 1;
+      } else {
+        this.dataInstruction['planta 2'].VENTILADOR = 0;
+      }
+    } else {
+      this.dataInstruction['planta 2'].VENTILADOR = 0;
+    }
+
+    // Verificación para el riego de las plantas
+    if (hours > parseInt(hrg_1.split(':')[0], 10) && hours < parseInt(hrg_2.split(':')[0], 10)) {
+      this.dataInstruction['regadora'].REGADORA = 1;
+    } else if (hours === parseInt(hrg_1.split(':')[0], 10)) {
+      if (minutes >= parseInt(hrg_1.split(':')[1], 10)) {
+        this.dataInstruction['regadora'].REGADORA = 1;
+      } else {
+        this.dataInstruction['regadora'].REGADORA = 0;
+      }
+    } else if (hours === parseInt(hrg_2.split(':')[0], 10)) {
+      if (minutes <= parseInt(hrg_2.split(':')[1], 10)) {
+        this.dataInstruction['regadora'].REGADORA = 1;
+      } else {
+        this.dataInstruction['regadora'].REGADORA = 0;
+      }
+    } else {
+      this.dataInstruction['regadora'].REGADORA = 0;
+    }
+
     this.setData();
   }
 

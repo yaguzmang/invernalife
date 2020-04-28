@@ -16,6 +16,9 @@ export class CentroControlServiceService {
   }
 
   setData(values: any) {
+    this.instruccionesRef.update('c1ntr1l', {
+      lock: values.lock
+    });
     this.instruccionesRef.update('c1ntr1l/planta 1', {
       LUZ: values['planta 1'].LUZ,
       VENTILADOR: values['planta 1'].VENTILADOR

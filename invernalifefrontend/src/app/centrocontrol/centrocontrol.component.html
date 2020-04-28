@@ -54,6 +54,8 @@
                 </blockquote>
             </div>
         </div>
+
+        
     </div>
 
     <div class="card-group row">
@@ -108,6 +110,24 @@
                     </li>
                 </ul>
             </div>
+        </div>
+    </div>
+
+    <div class="card-group row">
+        <div class="card">
+            <div class="card-header">
+                <h1 id="planta1">Ajustes</h1>
+                <span>Ajustar respecto al horario</span>
+            </div>
+            <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                        <div id= "lock" class="btn-group mr-2" role="group" aria-label="First group">
+                            <button (click)='setBtnLock()' type="button" class="btn {{btnLock}}">{{btnLockTxt}}</button>
+                        </div>
+                    </div>
+                </blockquote>
+            </div>  
         </div>
     </div>
 </div>
