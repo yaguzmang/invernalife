@@ -11,28 +11,50 @@ tiempo = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
 cred = credentials.Certificate('C:/Users/Santiago/Desktop/invernalife-firebase-adminsdk-r6fz2-2c4537699b.json')
 firebase_admin.initialize_app(cred, {'databaseURL': 'https://invernalife.firebaseio.com/'})
-ref = db.reference('customer')
-ref2 = db.reference('customer control')
+ref = db.reference('123456/datos/')
+#ref2 = db.reference('customer control')
 
+def  contarDatos():
+    diccionario=ref.get()
+    nDatos=diccionario["numero_datos"]["numero_datos"]
+    return nDatos
 
-def EnviarDatosPlanta():
-    invernadero_ref = ref.child(tiempo)
-    invernadero_ref.set({
-        'invernadero_general': {
-                'TEMPERATURA': random.randint(20, 30),
-                'HUMEDAD AMBIENTE': random.randint(20, 30),
-                'PH': random.randint(0, 12),
-                'Co2': random.randint(20, 30) 
-        },
-        'planta1_humedad_suelo': {
-            'HUMEDAD SUELO': random.randint(20, 30)
-        },
-        'planta2_humedad_suelo': {
-            'HUMEDAD SUELO': random.randint(20, 30)
-        }
+def  aumentarDatos():
+    invernadero_ref = ref.child('numero_datos')
+    invernadero_ref.update({
+        'numero_datos': contarDatos()+1
     })
 
 
+
+
+def EnviarDatosPlanta():
+
+    invernadero_ref = ref.child("dato"+str(contarDatos()))
+    invernadero_ref.set({
+        'fecha_dato':{
+                'fecha': tiempo
+         },
+        
+        'invernadero':{
+                'co2': random.randint(20, 30),
+                'humedad_ambiente': random.randint(20, 30),
+                'ph': random.randint(0, 12),
+                'temperatura': random.randint(20, 30)
+                
+                
+        },
+        'planta1': {
+            'humedad_suelo': random.randint(20, 30)
+        },
+        'planta2': {
+            'humedad_suelo': random.randint(20, 30)
+        }
+    })
+    aumentarDatos()
+
+EnviarDatosPlanta()
+'''
 def EnviarOnOff():
 
     invernadero_ref2 = ref2.child('c1ntr1l')
@@ -63,10 +85,6 @@ def verificarHorario(h_inicio, h_fin):
     h_fin = datetime.datetime.strptime(h_fin, '%H:%M:%S').time()
     time2 = datetime.datetime.strptime(time3, '%H:%M:%S').time()
     return (h_inicio<= time2 and time2 <= h_fin)
-
-        
-
-
 
 def ObtenerOnOff():
     threading.Timer(5.0, ObtenerOnOff).start()
@@ -115,3 +133,4 @@ def ObtenerOnOff():
 
 ObtenerOnOff()
 
+'''
