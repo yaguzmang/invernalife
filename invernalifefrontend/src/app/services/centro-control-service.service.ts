@@ -11,24 +11,20 @@ export class CentroControlServiceService {
   constructor(private db: AngularFireDatabase) { }
 
   getInstrucciones() {
-    this.instruccionesRef = this.db.list('customer control');
+    this.instruccionesRef = this.db.list('123456/');
     return this.instruccionesRef;
   }
 
-  setData(values: any) {
-    this.instruccionesRef.update('c1ntr1l', {
+  setData(values: any, plantaSelect: number) {
+    this.instruccionesRef.update('control', {
       lock: values.lock
     });
-    this.instruccionesRef.update('c1ntr1l/planta 1', {
-      LUZ: values['planta 1'].LUZ,
-      VENTILADOR: values['planta 1'].VENTILADOR
+    this.instruccionesRef.update('control/planta' + plantaSelect, {
+      luz: values['planta'].LUZ,
+      ventilador: values['planta'].VENTILADOR
     });
-    this.instruccionesRef.update('c1ntr1l/planta 2', {
-      LUZ: values['planta 2'].LUZ,
-      VENTILADOR: values['planta 2'].VENTILADOR
-    });
-    this.instruccionesRef.update('c1ntr1l/regadora', {
-      REGADORA: values['regadora'].REGADORA
+    this.instruccionesRef.update('control/regadora', {
+      regadora: values['regadora'].REGADORA
     });
   }
 }

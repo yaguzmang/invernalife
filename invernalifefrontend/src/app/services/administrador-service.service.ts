@@ -11,21 +11,17 @@ export class AdministradorServiceService {
   constructor(private db: AngularFireDatabase) { }
 
   getHorarios() {
-    this.horariosRef = this.db.list('customer control');
+    this.horariosRef = this.db.list('123456/');
     return this.horariosRef;
   }
 
-  setData(values: any) {
-    this.horariosRef.update('c1ntr1l/planta 1', {
-      'HORARIO-LUZ': values['planta 1']['HORARIO-LUZ'],
-      'HORARIO-VENTILADOR': values['planta 1']['HORARIO-VENTILADOR']
+  setData(values: any, plantaSelect) {
+    this.horariosRef.update('control/planta' + plantaSelect, {
+      'horario_luz': values['planta']['horario_luz'],
+      'horario_ventilador': values['planta']['horario_ventilador']
     });
-    this.horariosRef.update('c1ntr1l/planta 2', {
-      'HORARIO-LUZ': values['planta 2']['HORARIO-LUZ'],
-      'HORARIO-VENTILADOR': values['planta 2']['HORARIO-VENTILADOR']
-    });
-    this.horariosRef.update('c1ntr1l/regadora', {
-      'HORARIO-REGADORA': values['regadora']['HORARIO-REGADORA']
+    this.horariosRef.update('control/regadora', {
+      'horario_regadora': values['regadora']['horario_regadora']
     });
   }
 }

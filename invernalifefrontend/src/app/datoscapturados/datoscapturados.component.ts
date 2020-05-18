@@ -3,6 +3,7 @@ import { DatosCapturadosService } from '../services/datos-capturados-service.ser
 import { Router } from '@angular/router';
 import { AngularFireList } from '@angular/fire/database';
 import { Datos } from '../models/datos.model';
+import { stringify } from 'querystring';
 
 @Component({
   selector: 'app-datoscapturados',
@@ -21,17 +22,23 @@ export class DatoscapturadosComponent implements OnInit {
     let s = this.service.getDatosCapturados();
     s.snapshotChanges()
     .subscribe(data => {
-      data.forEach(item => {
-        let a = item.payload.toJSON();
-        let ig = a['invernadero_general'];
-        let p1 = a['planta1_humedad_suelo'];
-        let p2 = a['planta2_humedad_suelo'];
-        let newDato = new Datos(item.key, ig['Co2'], ig['HUMEDAD AMBIENTE'],
-        ig['PH'], ig['TEMPERATURA'], p1['HUMEDAD SUELO'], p2['HUMEDAD SUELO']);
+      const datos = data[1].payload.toJSON();
+      const nDatos = datos['numero_datos']
+
+      for (let i = 0; i < nDatos; i++) {
+        const dato = datos['dato' + i];
+        const ig = dato['invernadero'];
+        const p1 = dato['planta1'];
+        const p2 = dato['planta2'];
+        const fecha = dato['fecha_dato'];
+
+        let newDato = new Datos(fecha['fecha'], ig['co2'], ig['humedad_ambiente'], ig['ph'], ig['temperatura'],
+        p1['humedad_suelo'], p2['humedad_suelo']);
+
         this.datosList.push(newDato);
-      });
-      console.log(this.datosList);
+      }
     });
+    console.log(this.datosList);
   }
 
 }

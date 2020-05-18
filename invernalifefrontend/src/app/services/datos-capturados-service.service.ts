@@ -11,7 +11,7 @@ export class DatosCapturadosService {
   constructor(private db: AngularFireDatabase) { }
 
   getDatosCapturados() {
-    this.datosRef = this.db.list('customer');
+    this.datosRef = this.db.list('123456/');
     return this.datosRef;
   }
 }

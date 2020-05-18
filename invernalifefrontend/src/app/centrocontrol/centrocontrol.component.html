@@ -3,19 +3,27 @@
 </header>
 
 <div class="container">
-    <div class="card-group row">
+    <p>Seleccionar maceta:</p>
+    <select [(ngModel)]="opcionSeleccionada" (change)="capturar()" class="form-control">
+        <option value="0">Selecciona una opción</option>
+        <option *ngFor="let planta of plantas" value={{planta}}>maceta {{planta}}</option>
+    </select>
+    <br>
+    <h3 *ngIf="mostrar">Centro de control maceta {{plantaSelect}}</h3>
+    <div class="card-group row" *ngIf="mostrar">
         <div class="card">
             <div class="card-header">
-                <h1 id="planta1">Planta 1</h1>
+                <h1 id="planta1">Maceta {{plantaSelect}}</h1>
+                <br>
             </div>
             <div class="card-body">
                 <blockquote class="blockquote mb-0">
                     <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                         <div class="btn-group mr-2" role="group" aria-label="First group" id="b1p1">
-                            <button (click)='setBtn1p1()' type="button" class="btn {{btn1p1}}">{{btn1p1Txt}}</button>
+                            <button (click)='setBtn1p()' type="button" class="btn {{btn1p}}">{{btn1pTxt}}</button>
                         </div>
                         <div class="btn-group mr-2" role="group" aria-label="Second group" id="b2p1">
-                            <button (click)='setBtn2p1()' type="button" class="btn {{btn2p1}}">{{btn2p1Txt}}</button>
+                            <button (click)='setBtn2p()' type="button" class="btn {{btn2p}}">{{btn2pTxt}}</button>
                         </div>
                     </div>
                 </blockquote>
@@ -24,25 +32,29 @@
 
         <div class="card">
             <div class="card-header">
-                <h1 id="planta2">Planta 2</h1>
+                <h1 id="planta1">Maceta {{plantaSelect}}</h1>
+                <span>Horario de funcionamiento</span>
             </div>
             <div class="card-body">
-                <blockquote class="blockquote mb-0">
-                    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-                        <div class="btn-group mr-2" role="group" aria-label="First group" id="b1p2">
-                            <button (click)='setBtn1p2()' type="button" class="btn {{btn1p2}}">{{btn1p2Txt}}</button>
-                        </div>
-                        <div class="btn-group mr-2" role="group" aria-label="Second group" id="b2p2">
-                            <button (click)='setBtn2p2()' type="button" class="btn {{btn2p2}}">{{btn2p2Txt}}</button>
-                        </div>
-                    </div>
-                </blockquote>
-            </div>
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Luces
+                        <span class="badge badge-primary badge-pill">{{ hlp }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Ventilación
+                        <span class="badge badge-primary badge-pill">{{ hvp }}</span>
+                    </li>
+                </ul>
+            </div>  
         </div>
+    </div>
 
+    <div class="card-group row">
         <div class="card">
             <div class="card-header">
                 <h1 id="riego">Riego</h1>
+                <br>
             </div>
             <div class="card-body">
                 <blockquote class="blockquote mb-0">
@@ -52,48 +64,6 @@
                         </div>
                     </div>
                 </blockquote>
-            </div>
-        </div>
-
-        
-    </div>
-
-    <div class="card-group row">
-        <div class="card">
-            <div class="card-header">
-                <h1 id="planta1">Planta 1</h1>
-                <span>Horario de funcionamiento</span>
-            </div>
-            <div class="card-body">
-                <ul class="list-group">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Luces
-                        <span class="badge badge-primary badge-pill">{{ hlp1 }}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Ventilación
-                        <span class="badge badge-primary badge-pill">{{ hvp1 }}</span>
-                    </li>
-                </ul>
-            </div>  
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <h1 id="planta2">Planta 2</h1>
-                <span>Horario de funcionamiento</span>
-            </div>
-            <div class="card-body">
-                <ul class="list-group">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Luces
-                        <span class="badge badge-primary badge-pill">{{ hlp2 }}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Ventilación
-                        <span class="badge badge-primary badge-pill">{{ hvp2 }}</span>
-                    </li>
-                </ul>
             </div>
         </div>
 
@@ -113,7 +83,7 @@
         </div>
     </div>
 
-    <div class="card-group row">
+    <div class="card-group row" *ngIf="mostrar">
         <div class="card">
             <div class="card-header">
                 <h1 id="planta1">Ajustes</h1>

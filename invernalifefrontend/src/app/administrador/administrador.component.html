@@ -19,51 +19,33 @@
     <h3 id="titulo2">Administrar Horarios</h3>
   </div>
 
+  <p>Seleccionar maceta:</p>
+  <select [(ngModel)]="opcionSeleccionada" (change)="capturar()" class="form-control">
+      <option value="0">Selecciona una opción</option>
+      <option *ngFor="let planta of plantas" value={{planta}}>maceta {{planta}}</option>
+  </select>
   <form #horariosForm="ngForm" (ngSubmit)="actualizarHorarios(horariosForm)">
-    <div class="card-group row">
+    <div class="card-group row" *ngIf="mostrar">
       <div class="card">
           <div class="card-header">
-              <h1 id="planta1">Planta 1</h1>
+              <h1 id="planta1">Maceta {{plantaSelect}}</h1>
           </div>
           <div class="card-body">
             <div class="input-group mb-3">
               <div class="input-group-prepend">
                 <span for="hlpuno" class="input-group-text" id="inputGroup-sizing-default">Luces</span>
               </div>
-              <input ngModel #hlpunouno="ngModel" name="hlp1_1" type="time" step="1" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-              <input ngModel #hlpunodos="ngModel" name="hlp1_2" type="time" step="1" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+              <input ngModel #hlpunouno="ngModel" name="hlp1_1" type="time" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+              <input ngModel #hlpunodos="ngModel" name="hlp1_2" type="time" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
             </div>
             <div class="input-group mb-3">
               <div class="input-group-prepend">
                 <span for="hvpuno" class="input-group-text" id="inputGroup-sizing-default">Ventilación</span>
               </div>
-              <input ngModel #hvpunouno="ngModel" name="hvp1_1" type="time" step="1" value="01:23:43" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-              <input ngModel #hvpunodos="ngModel" name="hvp1_2" type="time" step="1" value="01:23:43" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+              <input ngModel #hvpunouno="ngModel" name="hvp1_1" type="time" value="01:23:43" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+              <input ngModel #hvpunodos="ngModel" name="hvp1_2" type="time" value="01:23:43" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
             </div>
           </div>  
-      </div>
-    </div>
-    <div class="card-group row">
-      <div class="card">
-          <div class="card-header">
-              <h1 id="planta2">Planta 2</h1>
-          </div>
-          <div class="card-body">
-              <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-default">Luces</span>
-              </div>
-              <input ngModel #hlpdosuno="ngModel" name="hlp2_1" type="time" step="1" value="00:34:12" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-              <input ngModel #hlpdosdos="ngModel" name="hlp2_2" type="time" step="1" value="00:34:12" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-            </div>
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-default">Ventilación</span>
-              </div>
-              <input ngModel #hvpdosuno="ngModel" name="hvp2_1" type="time" step="1" value="01:23:43" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-              <input ngModel #hvpdosdos="ngModel" name="hvp2_2" type="time" step="1" value="01:23:43" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-            </div>
-          </div>
       </div>
     </div>
     <div class="card-group row">
@@ -76,15 +58,15 @@
               <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroup-sizing-default">Riego</span>
               </div>
-              <input ngModel #hrguno="ngModel" name="hrg_1" type="time" step="1" value="00:34:12" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-              <input ngModel #hrgdos="ngModel" name="hrg_2" type="time" step="1" value="00:34:12" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+              <input ngModel #hrguno="ngModel" name="hrg_1" type="time" value="00:34:12" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+              <input ngModel #hrgdos="ngModel" name="hrg_2" type="time" value="00:34:12" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
             </div>
           </div>
       </div>
     </div>
     <div class="row">
       <div class="col-md-12">
-        <button class="btn btn-primary" type="submit">Actualizar</button>
+        <button class="btn btn-primary" type="submit" id="actualizar">Actualizar</button>
       </div>
     </div>
   </form>

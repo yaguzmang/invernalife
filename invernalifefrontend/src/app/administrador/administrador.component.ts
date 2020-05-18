@@ -11,47 +11,63 @@ import { Router } from '@angular/router';
 })
 export class AdministradorComponent implements OnInit {
 
-  
-
   dataHorarios = {
-    'planta 1': {
-      'HORARIO-LUZ': '',
-      'HORARIO-VENTILADOR': ''
-    },
-    'planta 2': {
-      'HORARIO-LUZ': '',
-      'HORARIO-VENTILADOR': ''
+    'planta': {
+      'horario_luz': '',
+      'horario_ventilador': ''
     },
     'regadora': {
-      'HORARIO-REGADORA': ''
+      'horario_regadora': ''
     }
   };
-  
-  constructor(private service: AdministradorServiceService, private router: Router) { }
 
-  numeroNotificaciones: Number = 0;
-
-  ngOnInit(): void {
-    this.getHorarios();
-  }
-
-  getHorarios() {
+  constructor(private service: AdministradorServiceService, private router: Router) { 
     let s = this.service.getHorarios();
     s.snapshotChanges()
     .subscribe(data => {
-      data.forEach(item => {
-        let a = item.payload.toJSON();
-        let p1 = a['planta 1'];
-        let p2 = a['planta 2'];
-        let rg = a['regadora'];
+      const datos = data[0].payload.toJSON();
+      const nPlantas = datos['numero_plantas'];
+      for (let i = 1; i <= nPlantas; i++) {
+        this.plantas[i - 1] = i;
+      }
+    });
+  }
 
-        this.dataHorarios['planta 1']['HORARIO-LUZ'] = p1['HORARIO-LUZ'];
-        this.dataHorarios['planta 1']['HORARIO-VENTILADOR'] = p1['HORARIO-VENTILADOR'];
-        this.dataHorarios['planta 2']['HORARIO-LUZ'] = p2['HORARIO-LUZ'];
-        this.dataHorarios['planta 2']['HORARIO-VENTILADOR'] = p2['HORARIO-VENTILADOR'];
-        this.dataHorarios['regadora']['HORARIO-REGADORA'] = rg['HORARIO-REGADORA'];
+  public numeroNotificaciones: number = 0;
 
-      });
+  plantas = [];
+  opcionSeleccionada = 0;
+  plantaSelect = 0;
+  mostrar = false;
+  space = '';
+
+  ngOnInit(): void {
+    // this.getHorarios();
+  }
+
+  capturar() {
+    this.plantaSelect = this.opcionSeleccionada;
+    if (this.plantaSelect === 0) {
+      this.mostrar = false;
+    } else {
+      this.mostrar = true;
+    }
+    if (this.plantaSelect !== 0) {
+      // this.getHorarios(this.plantaSelect);
+    }
+  }
+
+  getHorarios(plantaSelect: number) {
+    let s = this.service.getHorarios();
+    s.snapshotChanges()
+    .subscribe(data => {
+      const horarios = data[0].payload.toJSON();
+      const planta = horarios['planta' + plantaSelect];
+      const rg = horarios['regadora'];
+
+      this.dataHorarios['planta']['HORARIO-LUZ'] = planta['HORARIO-LUZ'];
+      this.dataHorarios['planta']['HORARIO-VENTILADOR'] = planta['HORARIO-VENTILADOR'];
+      this.dataHorarios['regadora']['HORARIO-REGADORA'] = rg['HORARIO-REGADORA'];
     });
   }
 
@@ -59,56 +75,30 @@ export class AdministradorComponent implements OnInit {
     console.log(frm.value);
     console.log(this.dataHorarios);
 
-    let hlp1_1: string = frm.value['hlp1_1'];
-    let hlp1_2: string = frm.value['hlp1_2'];
+    let hlp_1: string = frm.value['hlp1_1'];
+    let hlp_2: string = frm.value['hlp1_2'];
 
-    if (hlp1_1 !== '' && hlp1_2 !== '') {
-      if (hlp1_1.length < 6) {
-        hlp1_1 += ':00';
+    if (hlp_1 !== '' && hlp_2 !== '') {
+      if (hlp_1.length < 6) {
+        hlp_1 += ':00';
       }
-      if (hlp1_2.length < 6) {
-        hlp1_2 += ':00';
+      if (hlp_2.length < 6) {
+        hlp_2 += ':00';
       }
-      this.dataHorarios['planta 1']['HORARIO-LUZ'] = hlp1_1 + '-' + hlp1_2;
+      this.dataHorarios['planta']['horario_luz'] = hlp_1 + '-' + hlp_2;
     }
 
-    let hvp1_1: string = frm.value['hvp1_1'];
-    let hvp1_2: string = frm.value['hvp1_2'];
+    let hvp_1: string = frm.value['hvp1_1'];
+    let hvp_2: string = frm.value['hvp1_2'];
 
-    if (hvp1_1 !== '' && hvp1_2 !== '') {
-      if (hvp1_1.length < 6) {
-        hvp1_1 += ':00';
+    if (hvp_1 !== '' && hvp_2 !== '') {
+      if (hvp_1.length < 6) {
+        hvp_1 += ':00';
       }
-      if (hvp1_2.length < 6) {
-        hvp1_2 += ':00';
+      if (hvp_2.length < 6) {
+        hvp_2 += ':00';
       }
-      this.dataHorarios['planta 1']['HORARIO-VENTILADOR'] = hvp1_1 + '-' + hvp1_2;
-    }
-
-    let hlp2_1: string = frm.value['hlp2_1'];
-    let hlp2_2: string = frm.value['hlp2_2'];
-
-    if (hlp2_1 !== '' && hlp2_2 !== '') {
-      if (hlp2_1.length < 6) {
-        hlp2_1 += ':00';
-      }
-      if (hlp2_2.length < 6) {
-        hlp2_2 += ':00';
-      }
-      this.dataHorarios['planta 2']['HORARIO-LUZ'] = hlp2_1 + '-' + hlp2_2;
-    }
-
-    let hvp2_1: string = frm.value['hvp2_1'];
-    let hvp2_2: string = frm.value['hvp2_2'];
-
-    if (hvp2_1 !== '' && hvp2_2 !== '') {
-      if (hvp2_1.length < 6) {
-        hvp2_1 += ':00';
-      }
-      if (hvp2_2.length < 6) {
-        hvp2_2 += ':00';
-      }
-      this.dataHorarios['planta 2']['HORARIO-VENTILADOR'] = hvp2_1 + '-' + hvp2_2;
+      this.dataHorarios['planta']['horario_ventilador'] = hvp_1 + '-' + hvp_2;
     }
 
     let hrg_1: string = frm.value['hrg_1'];
@@ -121,10 +111,10 @@ export class AdministradorComponent implements OnInit {
       if (hrg_2.length < 6) {
         hrg_2 += ':00';
       }
-      this.dataHorarios['regadora']['HORARIO-REGADORA'] = hrg_1 + '-' + hrg_2;
+      this.dataHorarios['regadora']['horario_regadora'] = hrg_1 + '-' + hrg_2;
     }
 
-    this.service.setData(this.dataHorarios);
+    this.service.setData(this.dataHorarios, this.plantaSelect);
   }
 
 }
