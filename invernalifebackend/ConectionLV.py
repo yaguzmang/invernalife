@@ -12,7 +12,7 @@ tiempo = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 cred = credentials.Certificate('C:/Users/Santiago/Desktop/invernalife-firebase-adminsdk-r6fz2-2c4537699b.json')
 firebase_admin.initialize_app(cred, {'databaseURL': 'https://invernalife.firebaseio.com/'})
 ref = db.reference('123456/datos/')
-#ref2 = db.reference('customer control')
+refControl = db.reference('123456/control/')
 
 def  contarDatos():
     diccionario=ref.get()
@@ -25,10 +25,14 @@ def  aumentarDatos():
         'numero_datos': contarDatos()+1
     })
 
+def  contarMacetas():
+    diccionario=refControl.get()
+    nMacetas=diccionario["numero_macetas"]
+    return nMacetas
 
 
 
-def EnviarDatosPlanta():
+def EnviarDatosmaceta():
 
     invernadero_ref = ref.child("dato"+str(contarDatos()))
     invernadero_ref.set({
@@ -44,93 +48,72 @@ def EnviarDatosPlanta():
                 
                 
         },
-        'planta1': {
+        'maceta1': {
             'humedad_suelo': random.randint(20, 30)
         },
-        'planta2': {
+        'maceta2': {
             'humedad_suelo': random.randint(20, 30)
         }
     })
     aumentarDatos()
 
-EnviarDatosPlanta()
-'''
-def EnviarOnOff():
-
-    invernadero_ref2 = ref2.child('c1ntr1l')
-    invernadero_ref2.update({
-        'planta 1': {
-                'LUZ': random.randint(0, 1),
-                'VENTILADOR': random.randint(0, 1),
-                'HORARIO-VENTILADOR': tiempo + 'am - '+tiempo+'pm',
-                'HORARIO-LUZ': tiempo + 'am - '+tiempo+'pm'
-
-        },
-        'planta 2': {
-                'LUZ': random.randint(0, 1),
-                'VENTILADOR': random.randint(0, 1),
-                'HORARIO-VENTILADOR': tiempo + 'am - '+tiempo+'pm',
-                'HORARIO-LUZ':tiempo + 'am -'+tiempo+'pm'
-        },
-        'regadora': {
-                'REGADORA': random.randint(0, 1),
-                'HORARIO-REGADORA': tiempo + 'am - '+tiempo+'pm'
-        }
-    })
+#EnviarDatosmaceta()
 
 def verificarHorario(h_inicio, h_fin):
     now = datetime.datetime.now()
-    time3 = str(now.strftime("%H:%M:%S"))
-    h_inicio = datetime.datetime.strptime(h_inicio, '%H:%M:%S').time()
-    h_fin = datetime.datetime.strptime(h_fin, '%H:%M:%S').time()
-    time2 = datetime.datetime.strptime(time3, '%H:%M:%S').time()
+    time3 = str(now.strftime("%H:%M"))
+    h_inicio = datetime.datetime.strptime(h_inicio, '%H:%M').time()
+    h_fin = datetime.datetime.strptime(h_fin, '%H:%M').time()
+    time2 = datetime.datetime.strptime(time3, '%H:%M').time()
     return (h_inicio<= time2 and time2 <= h_fin)
 
 def ObtenerOnOff():
     threading.Timer(5.0, ObtenerOnOff).start()
-    diccionario=ref2.get()
+    diccionario=refControl.get()
 
-    lock=diccionario["c1ntr1l"]["lock"]
-    planta = "planta 1"
-    print(planta.upper())
-    luzTime = diccionario["c1ntr1l"][planta]["HORARIO-LUZ"]
-    if(lock == 1 and verificarHorario(luzTime.split('-')[0],luzTime.split('-')[1])):
-        print('LUZ-->ENCENDIDA')
-    else:
-        print('LUZ-->APAGADA')
+    for i in range(1,contarMacetas()+1):
+        lock=diccionario["lock"]
+        maceta = "maceta"+str(i)
+        print(i)
+        print('********'+maceta)
+        luzTime = diccionario[maceta]["horario_luz"]
+        ventiladorTime = diccionario[maceta]["horario_ventilador"]
+        regadoraTime = diccionario["regadora"]["horario_regadora"]
+        if(lock == 1):
+            print
+            if(verificarHorario(luzTime.split('-')[0],luzTime.split('-')[1])):
+                print('LUZ-->ENCENDIDA')
+            else:
+                print('LUZ-->APAGADA')
+                
+            if(verificarHorario(ventiladorTime.split('-')[0],ventiladorTime.split('-')[1])):
+                print('VENTILADOR-->ENCENDIDO') 
+            else:
+                print('VENTILADOR-->APAGADO')
 
-    ventiladorTime = diccionario["c1ntr1l"][planta]["HORARIO-VENTILADOR"]
-    if(lock == 1 and verificarHorario(ventiladorTime.split('-')[0],ventiladorTime.split('-')[1])):
-        print('VENTILADOR-->ENCENDIDO')
-    else:
-        print('VENTILADOR-->APAGADO')
+            if(verificarHorario(regadoraTime.split('-')[0],regadoraTime.split('-')[1])):
+                print('REGADORA-->ENCENDIDA')
+            else:
+                print('REGADORA-->APAGADA')
 
-    planta = "planta 2"
-    print('********')
-    print(planta.upper())
-        
-    luzTime = diccionario["c1ntr1l"][planta]["HORARIO-LUZ"]
-    if(lock == 1 and verificarHorario(luzTime.split('-')[0],luzTime.split('-')[1])):
-        print('LUZ-->ENCENDIDA')
-    else:
-        print('LUZ-->APAGADA')
-        
-    ventilador2Time = diccionario["c1ntr1l"][planta]["HORARIO-VENTILADOR"]
-    if(lock == 1 and verificarHorario(ventilador2Time.split('-')[0],ventilador2Time.split('-')[1])):
-        
-        print('VENTILADOR-->ENCENDIDO')
 
-    else:
-        print('VENTILADOR-->APAGADO')
+            
+        else:
+            if(diccionario[maceta]["luz"]==1):
+                print('LUZ-->ENCENDIDA')
+            else:
+                print('LUZ-->APAGADA')
 
-    print('********')
-    regadoraTime = diccionario["c1ntr1l"]["regadora"]["HORARIO-REGADORA"]
-    if(lock == 1 and verificarHorario(regadoraTime.split('-')[0],regadoraTime.split('-')[1])):
-        print('REGADORA-->ENCENDIDA')
-    else:
-        print('REGADORA-->APAGADA')
-    print('---------')    
+            if(diccionario[maceta]["ventilador"]==1):
+                print('VENTILADOR-->ENCENDIDA')
+            else:
+                print('VENTILADOR-->APAGADA')
 
-ObtenerOnOff()
+            if(diccionario["regadora"]["regadora"]==1):
+                print('REGADORA-->ENCENDIDA')
+            else:
+                print('REGADORA-->APAGADA')
+    
+            
+#ObtenerOnOff()
 
-'''
