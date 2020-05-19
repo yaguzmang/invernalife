@@ -25,7 +25,7 @@ export class CentrocontrolComponent implements OnInit {
 
   dataInstruction = {
     lock: 1,
-    'planta': {
+    'maceta': {
       LUZ: 1,
       VENTILADOR: 1
     },
@@ -34,9 +34,9 @@ export class CentrocontrolComponent implements OnInit {
     }
   };
 
-  plantas = [];
+  macetas = [];
   opcionSeleccionada = 0;
-  plantaSelect = 0;
+  macetaSelect = 0;
   mostrar = false;
   space = '';
 
@@ -45,100 +45,102 @@ export class CentrocontrolComponent implements OnInit {
     s.snapshotChanges()
     .subscribe(data => {
       const datos = data[0].payload.toJSON();
-      const nPlantas = datos['numero_plantas'];
-      for (let i = 1; i <= nPlantas; i++) {
-        this.plantas[i - 1] = i;
+      const nMacetas = datos['numero_macetas'];
+      for (let i = 1; i <= nMacetas; i++) {
+        this.macetas[i - 1] = i;
       }
     });
   }
 
   ngOnInit(): void {
+      this.getInstrucciones(this.macetaSelect);
   }
 
   capturar() {
-    this.plantaSelect = this.opcionSeleccionada;
-    if (this.plantaSelect === 0) {
+    this.macetaSelect = this.opcionSeleccionada;
+    if (this.macetaSelect === 0) {
       this.mostrar = false;
     } else {
       this.mostrar = true;
     }
-    if (this.plantaSelect !== 0) {
-      this.getInstrucciones(this.plantaSelect);
-    }
+    this.getInstrucciones(this.macetaSelect);
   }
 
-  getInstrucciones(plantaSelect: number) {
-    let s = this.service.getInstrucciones();
-    s.snapshotChanges()
-    .subscribe(data => {
-      const control = data[0].payload.toJSON();
-      const rg = control['regadora'];
-      const planta = control['planta' + plantaSelect];
+  getInstrucciones(macetaSelect: number) {
+    if (macetaSelect !== 0) {
+      let s = this.service.getInstrucciones();
+      s.snapshotChanges()
+      .subscribe(data => {
+        const control = data[0].payload.toJSON();
+        const rg = control['regadora'];
+        const maceta = control['maceta' + macetaSelect];
 
-      this.hlp = planta['horario_luz'];
-      this.hvp = planta['horario_ventilador'];
-      this.hrg = rg['horario_regadora'];
+        this.hlp = maceta['horario_luz'];
+        console.log(this.hlp);
+        this.hvp = maceta['horario_ventilador'];
+        this.hrg = rg['horario_regadora'];
 
-      if (control['lock'] === 1) {
-        this.btnLock = 'btn-dark';
-        this.btnLockTxt = 'Unlock';
-        this.dataInstruction.lock = 1;
-      } else {
-        this.btnLock = 'btn-success';
-        this.btnLockTxt = 'lock';
-        this.dataInstruction.lock = 0;
-      }
+        if (control['lock'] === 1) {
+          this.btnLock = 'btn-dark';
+          this.btnLockTxt = 'Unlock';
+          this.dataInstruction.lock = 1;
+        } else {
+          this.btnLock = 'btn-success';
+          this.btnLockTxt = 'lock';
+          this.dataInstruction.lock = 0;
+        }
 
-      if (planta['luz'] === 1) {
-        this.btn1p = 'btn-dark';
-        this.btn1pTxt = 'Apagar luz';
-        this.dataInstruction['planta'].LUZ = 1;
-      } else {
-        this.btn1p = 'btn-success';
-        this.btn1pTxt = 'Encender luz';
-        this.dataInstruction['planta'].LUZ = 0;
-      }
+        if (maceta['luz'] === 1) {
+          this.btn1p = 'btn-dark';
+          this.btn1pTxt = 'Apagar luz';
+          this.dataInstruction['maceta'].LUZ = 1;
+        } else {
+          this.btn1p = 'btn-success';
+          this.btn1pTxt = 'Encender luz';
+          this.dataInstruction['maceta'].LUZ = 0;
+        }
 
-      if (planta['ventilador'] === 1) {
-        this.btn2p = 'btn-dark';
-        this.btn2pTxt = 'Apagar ventilación';
-        this.dataInstruction['planta'].VENTILADOR = 1;
-      } else {
-        this.btn2p = 'btn-success';
-        this.btn2pTxt = 'Encender ventilación';
-        this.dataInstruction['planta'].VENTILADOR = 0;
-      }
+        if (maceta['ventilador'] === 1) {
+          this.btn2p = 'btn-dark';
+          this.btn2pTxt = 'Apagar ventilación';
+          this.dataInstruction['maceta'].VENTILADOR = 1;
+        } else {
+          this.btn2p = 'btn-success';
+          this.btn2pTxt = 'Encender ventilación';
+          this.dataInstruction['maceta'].VENTILADOR = 0;
+        }
 
-      if (rg['regadora'] === 1) {
-        this.btnRegador = 'btn-dark';
-        this.btnRegadorTxt = 'Apagar regadora';
-        this.dataInstruction['regadora'].REGADORA = 1;
-      } else {
-        this.btnRegador = 'btn-success';
-        this.btnRegadorTxt = 'Encender regadora';
-        this.dataInstruction['regadora'].REGADORA = 0;
-      }
+        if (rg['regadora'] === 1) {
+          this.btnRegador = 'btn-dark';
+          this.btnRegadorTxt = 'Apagar regadora';
+          this.dataInstruction['regadora'].REGADORA = 1;
+        } else {
+          this.btnRegador = 'btn-success';
+          this.btnRegadorTxt = 'Encender regadora';
+          this.dataInstruction['regadora'].REGADORA = 0;
+        }
 
-      if (this.dataInstruction.lock === 1) {
-        this.setButtons();
-      }
-    });
+        if (this.dataInstruction.lock === 1) {
+          this.setButtons();
+        }
+      });
+    }
   }
 
   setBtn1p() {
     if (this.btn1p === 'btn-success') {
-      this.dataInstruction['planta'].LUZ = 1;
+      this.dataInstruction['maceta'].LUZ = 1;
     } else {
-      this.dataInstruction['planta'].LUZ = 0;
+      this.dataInstruction['maceta'].LUZ = 0;
     }
     this.setData();
   }
 
   setBtn2p() {
     if (this.btn2p === 'btn-success') {
-      this.dataInstruction['planta'].VENTILADOR = 1;
+      this.dataInstruction['maceta'].VENTILADOR = 1;
     } else {
-      this.dataInstruction['planta'].VENTILADOR = 0;
+      this.dataInstruction['maceta'].VENTILADOR = 0;
     }
     this.setData();
   }
@@ -166,8 +168,7 @@ export class CentrocontrolComponent implements OnInit {
     const today = new Date();
     const hours = today.getHours();
     const minutes = today.getMinutes();
-    console.log(this.hlp);
-    console.log('entra');
+
     // Partir los horarios para su posterior comparación
     const hlp_1 = this.hlp.split('-')[0];
     const hlp_2 = this.hlp.split('-')[1];
@@ -176,45 +177,45 @@ export class CentrocontrolComponent implements OnInit {
     const hrg_1 = this.hrg.split('-')[0];
     const hrg_2 = this.hrg.split('-')[1];
 
-    // Verificación para la luz de la planta seleccionada
+    // Verificación para la luz de la maceta seleccionada
     if (hours > parseInt(hlp_1.split(':')[0], 10) && hours < parseInt(hlp_2.split(':')[0], 10)) {
-      this.dataInstruction['planta'].LUZ = 1;
+      this.dataInstruction['maceta'].LUZ = 1;
     } else if (hours === parseInt(hlp_1.split(':')[0], 10)) {
       if (minutes >= parseInt(hlp_1.split(':')[1], 10)) {
-        this.dataInstruction['planta'].LUZ = 1;
+        this.dataInstruction['maceta'].LUZ = 1;
       } else {
-        this.dataInstruction['planta'].LUZ = 0;
+        this.dataInstruction['maceta'].LUZ = 0;
       }
     } else if (hours === parseInt(hlp_2.split(':')[0], 10)) {
       if (minutes <= parseInt(hlp_2.split(':')[1], 10)) {
-        this.dataInstruction['planta'].LUZ = 1;
+        this.dataInstruction['maceta'].LUZ = 1;
       } else {
-        this.dataInstruction['planta'].LUZ = 0;
+        this.dataInstruction['maceta'].LUZ = 0;
       }
     } else {
-      this.dataInstruction['planta'].LUZ = 0;
+      this.dataInstruction['maceta'].LUZ = 0;
     }
 
-    // Verificación para la ventilación de la planta seleccionada
+    // Verificación para la ventilación de la maceta seleccionada
     if (hours > parseInt(hvp_1.split(':')[0], 10) && hours < parseInt(hvp_2.split(':')[0], 10)) {
-      this.dataInstruction['planta'].VENTILADOR = 1;
+      this.dataInstruction['maceta'].VENTILADOR = 1;
     } else if (hours === parseInt(hvp_1.split(':')[0], 10)) {
       if (minutes >= parseInt(hvp_1.split(':')[1], 10)) {
-        this.dataInstruction['planta'].VENTILADOR = 1;
+        this.dataInstruction['maceta'].VENTILADOR = 1;
       } else {
-        this.dataInstruction['planta'].VENTILADOR = 0;
+        this.dataInstruction['maceta'].VENTILADOR = 0;
       }
     } else if (hours === parseInt(hvp_2.split(':')[0], 10)) {
       if (minutes <= parseInt(hvp_2.split(':')[1], 10)) {
-        this.dataInstruction['planta'].VENTILADOR = 1;
+        this.dataInstruction['maceta'].VENTILADOR = 1;
       } else {
-        this.dataInstruction['planta'].VENTILADOR = 0;
+        this.dataInstruction['maceta'].VENTILADOR = 0;
       }
     } else {
-      this.dataInstruction['planta'].VENTILADOR = 0;
+      this.dataInstruction['maceta'].VENTILADOR = 0;
     }
 
-    // Verificación para el riego de las plantas
+    // Verificación para el riego de las macetas
     if (hours > parseInt(hrg_1.split(':')[0], 10) && hours < parseInt(hrg_2.split(':')[0], 10)) {
       this.dataInstruction['regadora'].REGADORA = 1;
     } else if (hours === parseInt(hrg_1.split(':')[0], 10)) {
@@ -238,7 +239,7 @@ export class CentrocontrolComponent implements OnInit {
 
   // Este método actualiza los valores de los componentes del invernadero en la DB.
   setData() {
-    this.service.setData(this.dataInstruction, this.plantaSelect);
+    this.service.setData(this.dataInstruction, this.macetaSelect);
   }
 
 }

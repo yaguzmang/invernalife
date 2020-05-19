@@ -22,13 +22,13 @@
   <p>Seleccionar maceta:</p>
   <select [(ngModel)]="opcionSeleccionada" (change)="capturar()" class="form-control">
       <option value="0">Selecciona una opción</option>
-      <option *ngFor="let planta of plantas" value={{planta}}>maceta {{planta}}</option>
+      <option *ngFor="let maceta of macetas" value={{maceta}}>maceta {{maceta}}</option>
   </select>
   <form #horariosForm="ngForm" (ngSubmit)="actualizarHorarios(horariosForm)">
     <div class="card-group row" *ngIf="mostrar">
       <div class="card">
           <div class="card-header">
-              <h1 id="planta1">Maceta {{plantaSelect}}</h1>
+              <h1 id="planta1">Maceta {{macetaSelect}}</h1>
           </div>
           <div class="card-body">
             <div class="input-group mb-3">
@@ -48,7 +48,7 @@
           </div>  
       </div>
     </div>
-    <div class="card-group row">
+    <div class="card-group row" *ngIf="mostrar">
       <div class="card">
           <div class="card-header">
               <h1 id="riego">Riego</h1>

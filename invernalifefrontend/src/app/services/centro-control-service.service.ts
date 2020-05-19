@@ -15,13 +15,13 @@ export class CentroControlServiceService {
     return this.instruccionesRef;
   }
 
-  setData(values: any, plantaSelect: number) {
+  setData(values: any, macetaSelect: number) {
     this.instruccionesRef.update('control', {
       lock: values.lock
     });
-    this.instruccionesRef.update('control/planta' + plantaSelect, {
-      luz: values['planta'].LUZ,
-      ventilador: values['planta'].VENTILADOR
+    this.instruccionesRef.update('control/maceta' + macetaSelect, {
+      luz: values['maceta'].LUZ,
+      ventilador: values['maceta'].VENTILADOR
     });
     this.instruccionesRef.update('control/regadora', {
       regadora: values['regadora'].REGADORA

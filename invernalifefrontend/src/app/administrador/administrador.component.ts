@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class AdministradorComponent implements OnInit {
 
   dataHorarios = {
-    'planta': {
+    'maceta': {
       'horario_luz': '',
       'horario_ventilador': ''
     },
@@ -21,53 +21,51 @@ export class AdministradorComponent implements OnInit {
     }
   };
 
-  constructor(private service: AdministradorServiceService, private router: Router) { 
+  macetas = [];
+  opcionSeleccionada = 0;
+  macetaSelect = 0;
+  mostrar = false;
+  space = '';
+
+  public numeroNotificaciones: number = 0;
+
+  constructor(private service: AdministradorServiceService, private router: Router) {
     let s = this.service.getHorarios();
     s.snapshotChanges()
     .subscribe(data => {
       const datos = data[0].payload.toJSON();
-      const nPlantas = datos['numero_plantas'];
-      for (let i = 1; i <= nPlantas; i++) {
-        this.plantas[i - 1] = i;
+      const nMacetas = datos['numero_macetas'];
+      for (let i = 1; i <= nMacetas; i++) {
+        this.macetas[i - 1] = i;
       }
     });
   }
 
-  public numeroNotificaciones: number = 0;
-
-  plantas = [];
-  opcionSeleccionada = 0;
-  plantaSelect = 0;
-  mostrar = false;
-  space = '';
-
   ngOnInit(): void {
-    // this.getHorarios();
+    this.getHorarios(this.macetaSelect);
   }
 
   capturar() {
-    this.plantaSelect = this.opcionSeleccionada;
-    if (this.plantaSelect === 0) {
+    this.macetaSelect = this.opcionSeleccionada;
+    if (this.macetaSelect === 0) {
       this.mostrar = false;
     } else {
       this.mostrar = true;
     }
-    if (this.plantaSelect !== 0) {
-      // this.getHorarios(this.plantaSelect);
-    }
+    this.getHorarios(this.macetaSelect);
   }
 
-  getHorarios(plantaSelect: number) {
+  getHorarios(macetaSelect: number) {
     let s = this.service.getHorarios();
     s.snapshotChanges()
     .subscribe(data => {
       const horarios = data[0].payload.toJSON();
-      const planta = horarios['planta' + plantaSelect];
+      const maceta = horarios['maceta' + macetaSelect];
       const rg = horarios['regadora'];
 
-      this.dataHorarios['planta']['HORARIO-LUZ'] = planta['HORARIO-LUZ'];
-      this.dataHorarios['planta']['HORARIO-VENTILADOR'] = planta['HORARIO-VENTILADOR'];
-      this.dataHorarios['regadora']['HORARIO-REGADORA'] = rg['HORARIO-REGADORA'];
+      this.dataHorarios['maceta']['horario_luz'] = maceta['horario_luz'];
+      this.dataHorarios['maceta']['horario_ventilador'] = maceta['horario_ventilador'];
+      this.dataHorarios['regadora']['horario_regadora'] = rg['horario_regadora'];
     });
   }
 
@@ -79,42 +77,26 @@ export class AdministradorComponent implements OnInit {
     let hlp_2: string = frm.value['hlp1_2'];
 
     if (hlp_1 !== '' && hlp_2 !== '') {
-      if (hlp_1.length < 6) {
-        hlp_1 += ':00';
-      }
-      if (hlp_2.length < 6) {
-        hlp_2 += ':00';
-      }
-      this.dataHorarios['planta']['horario_luz'] = hlp_1 + '-' + hlp_2;
+      this.dataHorarios['maceta']['horario_luz'] = hlp_1 + '-' + hlp_2;
     }
 
     let hvp_1: string = frm.value['hvp1_1'];
     let hvp_2: string = frm.value['hvp1_2'];
 
     if (hvp_1 !== '' && hvp_2 !== '') {
-      if (hvp_1.length < 6) {
-        hvp_1 += ':00';
-      }
-      if (hvp_2.length < 6) {
-        hvp_2 += ':00';
-      }
-      this.dataHorarios['planta']['horario_ventilador'] = hvp_1 + '-' + hvp_2;
+      this.dataHorarios['maceta']['horario_ventilador'] = hvp_1 + '-' + hvp_2;
     }
 
     let hrg_1: string = frm.value['hrg_1'];
     let hrg_2: string = frm.value['hrg_2'];
 
     if (hrg_1 !== '' && hrg_2 !== '') {
-      if (hrg_1.length < 6) {
-        hrg_1 += ':00';
-      }
-      if (hrg_2.length < 6) {
-        hrg_2 += ':00';
-      }
       this.dataHorarios['regadora']['horario_regadora'] = hrg_1 + '-' + hrg_2;
     }
 
-    this.service.setData(this.dataHorarios, this.plantaSelect);
+    if (this.macetaSelect !== 0) {
+      this.service.setData(this.dataHorarios, this.macetaSelect);
+    }
   }
 
 }

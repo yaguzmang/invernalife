@@ -15,10 +15,10 @@ export class AdministradorServiceService {
     return this.horariosRef;
   }
 
-  setData(values: any, plantaSelect) {
-    this.horariosRef.update('control/planta' + plantaSelect, {
-      'horario_luz': values['planta']['horario_luz'],
-      'horario_ventilador': values['planta']['horario_ventilador']
+  setData(values: any, macetaSelect) {
+    this.horariosRef.update('control/maceta' + macetaSelect, {
+      'horario_luz': values['maceta']['horario_luz'],
+      'horario_ventilador': values['maceta']['horario_ventilador']
     });
     this.horariosRef.update('control/regadora', {
       'horario_regadora': values['regadora']['horario_regadora']
