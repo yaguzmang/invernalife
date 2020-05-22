@@ -56,17 +56,19 @@ export class AdministradorComponent implements OnInit {
   }
 
   getHorarios(macetaSelect: number) {
-    let s = this.service.getHorarios();
-    s.snapshotChanges()
-    .subscribe(data => {
-      const horarios = data[0].payload.toJSON();
-      const maceta = horarios['maceta' + macetaSelect];
-      const rg = horarios['regadora'];
+    if (macetaSelect !== 0) {
+      let s = this.service.getHorarios();
+      s.snapshotChanges()
+      .subscribe(data => {
+        const horarios = data[0].payload.toJSON();
+        const maceta = horarios['maceta' + macetaSelect];
+        const rg = horarios['regadora'];
 
-      this.dataHorarios['maceta']['horario_luz'] = maceta['horario_luz'];
-      this.dataHorarios['maceta']['horario_ventilador'] = maceta['horario_ventilador'];
-      this.dataHorarios['regadora']['horario_regadora'] = rg['horario_regadora'];
-    });
+        this.dataHorarios['maceta']['horario_luz'] = maceta['horario_luz'];
+        this.dataHorarios['maceta']['horario_ventilador'] = maceta['horario_ventilador'];
+        this.dataHorarios['regadora']['horario_regadora'] = rg['horario_regadora'];
+      });
+    }
   }
 
   actualizarHorarios(frm: NgForm) {

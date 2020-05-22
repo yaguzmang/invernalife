@@ -23,7 +23,7 @@ export class DatoscapturadosComponent implements OnInit {
     s.snapshotChanges()
     .subscribe(data => {
       const datos = data[1].payload.toJSON();
-      const nDatos = datos['numero_datos']
+      const nDatos = datos['numero_datos']['numero_datos'];
 
       for (let i = 0; i < nDatos; i++) {
         const dato = datos['dato' + i];

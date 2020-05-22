@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthServiceService } from './services/auth-service.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,8 +9,29 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   title = 'invernalifefrontend';
+  user: firebase.User;
 
-  constructor(private router: Router) {}
+  constructor(private auth: AuthServiceService, private router: Router) {
+      this.auth.getUserState()
+        .subscribe( user => {
+          this.user = user;
+      });
+  }
+
+  login() {
+    this.router.navigate(['login']);
+  }
+
+  register() {
+    this.router.navigate(['registration']);
+  }
+
+  logout() {
+    this.auth.logout()
+    .then(() => {
+      this.router.navigate(['']);
+    });
+  }
 
   gotoAdministrador() {
     this.router.navigate(['administrador']);

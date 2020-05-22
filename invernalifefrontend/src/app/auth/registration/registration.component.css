@@ -1,0 +1,15 @@
+.registerForm 
+{
+    width: 100%;
+    margin-left: 70%;
+    margin-top: 10%;
+}
+
+#pswAlert 
+{
+    font-size: 10px;
+}
+
+#titulo {
+    text-align: center;
+}

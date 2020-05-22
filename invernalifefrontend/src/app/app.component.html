@@ -6,19 +6,28 @@
         </div>
 
         <ul class="list-unstyled components">
+            <p *ngIf="user">Hola {{ user?.displayName }}</p>
             <p>Navegador</p>
-            <li class="active">
-                <a (click)= 'gotoAdministrador()'>Administrador</a>
-                
+            <li *ngIf="!user">
+                <a (click)= 'login()'>Login</a>    
             </li>
-            <li>
+            <li *ngIf="!user">
+                <a (click)= 'register()'>Registrarse</a>    
+            </li>
+            <li *ngIf="user">
+                <a (click)= 'gotoAdministrador()'>Administrador</a>    
+            </li>
+            <li *ngIf="user">
                 <a (click)= 'gotoCentroControl()'>Centro de control</a>
             </li>
-            <li>
+            <li *ngIf="user">
                 <a (click)= 'gotoDatosCapturados()' >Datos capturados</a>
             </li>
-            <li>
+            <li *ngIf="user">
                 <a (click)= 'gotoReportes()'>Reportes</a>
+            </li>
+            <li *ngIf="user">
+                <a (click)="logout()">Logout</a>
             </li>
         </ul>
     </nav>

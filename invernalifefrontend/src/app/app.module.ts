@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -12,6 +14,8 @@ import { CentrocontrolComponent } from './centrocontrol/centrocontrol.component'
 import { DatoscapturadosComponent } from './datoscapturados/datoscapturados.component';
 import { ReportesComponent } from './reportes/reportes.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { LoginComponent } from './auth/login/login.component';
+import { RegistrationComponent } from './auth/registration/registration.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +23,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     AdministradorComponent,
     CentrocontrolComponent,
     DatoscapturadosComponent,
-    ReportesComponent
+    ReportesComponent,
+    LoginComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +34,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     ReactiveFormsModule,
     FontAwesomeModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    AngularFirestoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]
