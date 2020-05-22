@@ -11,7 +11,7 @@ tiempo = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
 cred = credentials.Certificate('C:/Users/Santiago/Desktop/invernalife-firebase-adminsdk-r6fz2-2c4537699b.json')
 firebase_admin.initialize_app(cred, {'databaseURL': 'https://invernalife.firebaseio.com/'})
-ref = db.reference('123456/datos/')
+ref = db.reference('LpRcViSCgVZCaQVeAYP1mxAtzm02/datos/')
 refControl = db.reference('123456/control/')
 
 def  contarDatos():
@@ -48,6 +48,7 @@ def EnviarDatosmaceta():
                 
                 
         },
+        
         'maceta1': {
             'humedad_suelo': random.randint(20, 30)
         },
