@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DatosCapturadosService } from '../services/datos-capturados-service.service';
 import { Router } from '@angular/router';
-import { AngularFireList } from '@angular/fire/database';
 import { Datos } from '../models/datos.model';
-import { stringify } from 'querystring';
+import { Observable } from 'rxjs';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-datoscapturados',
@@ -12,14 +12,23 @@ import { stringify } from 'querystring';
 })
 export class DatoscapturadosComponent implements OnInit {
   public datosList: Datos[];
+  user: Observable<firebase.User>;
+  userID: firebase.User = null;
 
-  constructor(private service: DatosCapturadosService, private router: Router) {
-
+  constructor(private service: DatosCapturadosService, private router: Router, private afAuth: AngularFireAuth) {
+    this.user = afAuth.authState;
+    this.user.subscribe((user) => {
+      if (user) {
+        this.userID = user;
+      } else {
+        this.userID = null;
+      }
+    });
   }
 
   ngOnInit(): void {
     this.datosList = [];
-    let s = this.service.getDatosCapturados();
+    let s = this.service.getDatosCapturados(this.userID);
     s.snapshotChanges()
     .subscribe(data => {
       const datos = data[1].payload.toJSON();

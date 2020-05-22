@@ -9,8 +9,13 @@ header {
     margin-top: 10%;
 }
 
+.card-header {
+    text-align: center;
+}
+
 .container {
     width: 100%;
+    margin-left: 10%;
 }
 
 #titulo {
@@ -22,6 +27,12 @@ header {
 }
 
 #actualizar {
+    margin-left: 35%;
     margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+#añadir {
+    margin-left: 40%;
     margin-bottom: 5%;
 }

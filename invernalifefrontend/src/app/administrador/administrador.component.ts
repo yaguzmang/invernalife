@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AdministradorServiceService } from '../services/administrador-service.service';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 
 @Component({
@@ -10,6 +12,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./administrador.component.css']
 })
 export class AdministradorComponent implements OnInit {
+
+  user: Observable<firebase.User>;
+  userID: firebase.User = null;
 
   dataHorarios = {
     'maceta': {
@@ -29,15 +34,24 @@ export class AdministradorComponent implements OnInit {
 
   public numeroNotificaciones: number = 0;
 
-  constructor(private service: AdministradorServiceService, private router: Router) {
-    let s = this.service.getHorarios();
-    s.snapshotChanges()
-    .subscribe(data => {
-      const datos = data[0].payload.toJSON();
-      const nMacetas = datos['numero_macetas'];
-      for (let i = 1; i <= nMacetas; i++) {
-        this.macetas[i - 1] = i;
+  constructor(private service: AdministradorServiceService, private router: Router, private afAuth: AngularFireAuth) {
+    this.user = afAuth.authState;
+    this.user.subscribe((user) => {
+      if (user) {
+        this.userID = user;
+      } else {
+        this.userID = null;
       }
+
+      let s = this.service.getHorarios(this.userID);
+      s.snapshotChanges()
+      .subscribe(data => {
+        const datos = data[0].payload.toJSON();
+        const nMacetas = datos['numero_macetas'];
+        for (let i = 1; i <= nMacetas; i++) {
+          this.macetas[i - 1] = i;
+        }
+      });
     });
   }
 
@@ -57,7 +71,7 @@ export class AdministradorComponent implements OnInit {
 
   getHorarios(macetaSelect: number) {
     if (macetaSelect !== 0) {
-      let s = this.service.getHorarios();
+      let s = this.service.getHorarios(this.userID);
       s.snapshotChanges()
       .subscribe(data => {
         const horarios = data[0].payload.toJSON();
@@ -101,4 +115,7 @@ export class AdministradorComponent implements OnInit {
     }
   }
 
+  addMaceta() {
+    this.service.añadirMaceta(this.macetas.length);
+  }
 }

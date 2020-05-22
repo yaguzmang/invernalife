@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CentroControlServiceService } from '../services/centro-control-service.service';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-centrocontrol',
@@ -8,6 +10,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./centrocontrol.component.css']
 })
 export class CentrocontrolComponent implements OnInit {
+
+  user: Observable<firebase.User>;
+  userID: firebase.User = null;
 
   btnRegador = '';
   btn1p = '';
@@ -34,21 +39,32 @@ export class CentrocontrolComponent implements OnInit {
     }
   };
 
+  actualizado = 0;
+
   macetas = [];
   opcionSeleccionada = 0;
   macetaSelect = 0;
   mostrar = false;
   space = '';
 
-  constructor(private service: CentroControlServiceService, private router: Router) { 
-    let s = this.service.getInstrucciones();
-    s.snapshotChanges()
-    .subscribe(data => {
-      const datos = data[0].payload.toJSON();
-      const nMacetas = datos['numero_macetas'];
-      for (let i = 1; i <= nMacetas; i++) {
-        this.macetas[i - 1] = i;
+  constructor(private service: CentroControlServiceService, private router: Router, private afAuth: AngularFireAuth) {
+    this.user = afAuth.authState;
+    this.user.subscribe((user) => {
+      if (user) {
+        this.userID = user;
+      } else {
+        this.userID = null;
       }
+
+      let s = this.service.getInstrucciones(this.userID);
+      s.snapshotChanges()
+      .subscribe(data => {
+        const datos = data[0].payload.toJSON();
+        const nMacetas = datos['numero_macetas'];
+        for (let i = 1; i <= nMacetas; i++) {
+          this.macetas[i - 1] = i;
+        }
+      });
     });
   }
 
@@ -68,7 +84,7 @@ export class CentrocontrolComponent implements OnInit {
 
   getInstrucciones(macetaSelect: number) {
     if (macetaSelect !== 0) {
-      let s = this.service.getInstrucciones();
+      let s = this.service.getInstrucciones(this.userID);
       s.snapshotChanges()
       .subscribe(data => {
         const control = data[0].payload.toJSON();
@@ -76,7 +92,6 @@ export class CentrocontrolComponent implements OnInit {
         const maceta = control['maceta' + macetaSelect];
 
         this.hlp = maceta['horario_luz'];
-        console.log(this.hlp);
         this.hvp = maceta['horario_ventilador'];
         this.hrg = rg['horario_regadora'];
 
@@ -120,7 +135,8 @@ export class CentrocontrolComponent implements OnInit {
           this.dataInstruction['regadora'].REGADORA = 0;
         }
 
-        if (this.dataInstruction.lock === 1) {
+        if (this.dataInstruction.lock === 1 && this.actualizado !== 1) {
+          this.actualizado = 1;
           this.setButtons();
         }
       });
@@ -133,6 +149,7 @@ export class CentrocontrolComponent implements OnInit {
     } else {
       this.dataInstruction['maceta'].LUZ = 0;
     }
+    this.actualizado = 0;
     this.setData();
   }
 
@@ -142,6 +159,7 @@ export class CentrocontrolComponent implements OnInit {
     } else {
       this.dataInstruction['maceta'].VENTILADOR = 0;
     }
+    this.actualizado = 0;
     this.setData();
   }
 
@@ -151,12 +169,14 @@ export class CentrocontrolComponent implements OnInit {
     } else {
       this.dataInstruction['regadora'].REGADORA = 0;
     }
+    this.actualizado = 0;
     this.setData();
   }
 
   setBtnLock() {
     if (this.btnLock === 'btn-success') {
       this.dataInstruction.lock = 1;
+      this.actualizado = 0;
     } else {
       this.dataInstruction.lock = 0;
     }

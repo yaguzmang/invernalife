@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList} from '@angular/fire/database';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { Observable } from 'rxjs';
 import 'firebase/database';
 
 @Injectable({
@@ -9,23 +7,15 @@ import 'firebase/database';
 })
 export class AdministradorServiceService {
   horariosRef: AngularFireList<any>;
-  user: Observable<firebase.User>;
-  userID: firebase.User = null;
+  
 
-  constructor(private db: AngularFireDatabase, private afAuth: AngularFireAuth) {
-    this.user = afAuth.authState;
-    this.user.subscribe((user) => {
-      if (user) {
-        this.userID = user;
-      } else {
-        this.userID = null;
-      }
-    });
+  constructor(private db: AngularFireDatabase) {
+    
    }
 
-  getHorarios() {
-    if (this.userID) {
-      this.horariosRef = this.db.list(`${this.userID.uid}/`);
+  getHorarios(userID) {
+    if (userID) {
+      this.horariosRef = this.db.list(`${userID.uid}/`);
     }
     return this.horariosRef;
   }
@@ -37,6 +27,19 @@ export class AdministradorServiceService {
     });
     this.horariosRef.update('control/regadora', {
       'horario_regadora': values['regadora']['horario_regadora']
+    });
+  }
+
+  añadirMaceta(numeroMacetas) {
+    const newMaceta = 'maceta' + (numeroMacetas + 1) ;
+    this.horariosRef.update('control/' + newMaceta, {
+      horario_luz: '10:00-16:00',
+      horario_ventilador: '10:00-16:00',
+      luz: 0,
+      ventilador: 0
+    });
+    this.horariosRef.update('control/', {
+      numero_macetas: numeroMacetas + 1
     });
   }
 }

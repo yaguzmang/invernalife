@@ -9,23 +9,12 @@ import 'firebase/database';
 })
 export class DatosCapturadosService {
   datosRef: AngularFireList<any>;
-  user: Observable<firebase.User>;
-  userID: firebase.User = null;
 
-  constructor(private db: AngularFireDatabase, private afAuth: AngularFireAuth) {
-    this.user = afAuth.authState;
-    this.user.subscribe((user) => {
-      if (user) {
-        this.userID = user;
-      } else {
-        this.userID = null;
-      }
-    });
-  }
+  constructor(private db: AngularFireDatabase) {}
 
-  getDatosCapturados() {
-    if (this.userID) {
-      this.datosRef = this.db.list(`${this.userID.uid}/`);
+  getDatosCapturados(userID) {
+    if (userID) {
+      this.datosRef = this.db.list(`${userID.uid}/`);
     }
     return this.datosRef;
   }
