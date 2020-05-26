@@ -1,5 +1,5 @@
 <header class>
-  <h1 id="titulo">Centro de control</h1>
+  <h1 id="titulo"><i class="fas fa-wrench"></i> Centro de control</h1>
 </header>
 
 <div class="container">
@@ -9,21 +9,20 @@
         <option *ngFor="let maceta of macetas" value={{maceta}}>maceta {{maceta}}</option>
     </select>
     <br>
-    <h3 *ngIf="mostrar">Centro de control maceta {{macetaSelect}}</h3>
     <div class="card-group row" *ngIf="mostrar">
         <div class="card">
             <div class="card-header">
-                <h1 id="planta1">Maceta {{macetaSelect}}</h1>
+                <h1 id="planta1"><i class="fab fa-bitbucket"></i> Maceta {{macetaSelect}}</h1>
                 <br>
             </div>
             <div class="card-body">
                 <blockquote class="blockquote mb-0">
                     <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                         <div class="btn-group mr-2" role="group" aria-label="First group" id="b1p1">
-                            <button (click)='setBtn1p()' type="button" class="btn {{btn1p}}">{{btn1pTxt}}</button>
+                            <button (click)='setBtn1p()' type="button" class="btn {{btn1p}}"><i class="far fa-lightbulb"></i> {{btn1pTxt}}</button>
                         </div>
                         <div class="btn-group mr-2" role="group" aria-label="Second group" id="b2p1">
-                            <button (click)='setBtn2p()' type="button" class="btn {{btn2p}}">{{btn2pTxt}}</button>
+                            <button (click)='setBtn2p()' type="button" class="btn {{btn2p}}"><i class="fas fa-wind"></i> {{btn2pTxt}}</button>
                         </div>
                     </div>
                 </blockquote>
@@ -32,17 +31,17 @@
 
         <div class="card">
             <div class="card-header">
-                <h1 id="planta1">Maceta {{macetaSelect}}</h1>
+                <h1 id="planta1"><i class="fab fa-bitbucket"></i> Maceta {{macetaSelect}}</h1>
                 <span>Horario de funcionamiento</span>
             </div>
             <div class="card-body">
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Luces
+                        <i class="far fa-lightbulb"></i>Luces
                         <span class="badge badge-primary badge-pill">{{ hlp }}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Ventilación
+                        <i class="fas fa-wind"></i> Ventilación
                         <span class="badge badge-primary badge-pill">{{ hvp }}</span>
                     </li>
                 </ul>
@@ -53,14 +52,14 @@
     <div class="card-group row" *ngIf="mostrar">
         <div class="card">
             <div class="card-header">
-                <h1 id="riego">Riego</h1>
+                <h1 id="riego"><i class="fas fa-tint"></i> Riego</h1>
                 <br>
             </div>
             <div class="card-body">
                 <blockquote class="blockquote mb-0">
                     <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                         <div id= "regador" class="btn-group mr-2" role="group" aria-label="First group">
-                            <button (click)='setBtnRegador()' type="button" class="btn {{btnRegador}}">{{btnRegadorTxt}}</button>
+                            <button (click)='setBtnRegador()' type="button" class="btn {{btnRegador}}"><i class="fas fa-tint"></i> {{btnRegadorTxt}}</button>
                         </div>
                     </div>
                 </blockquote>
@@ -69,13 +68,13 @@
 
         <div class="card">
             <div class="card-header">
-                <h1 id="riego">Riego</h1>
+                <h1 id="riego"><i class="fas fa-tint"></i> Riego</h1>
                 <span>Horario de funcionamiento</span>
             </div>
             <div class="card-body">
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Riego
+                        <i class="fas fa-tint"></i> Riego
                         <span class="badge badge-primary badge-pill">{{ hrg }}</span>
                     </li>
                 </ul>
@@ -86,14 +85,14 @@
     <div class="card-group row" *ngIf="mostrar">
         <div class="card">
             <div class="card-header">
-                <h1 id="planta1">Ajustes</h1>
+                <h1 id="planta1"><i class="fas fa-cog"></i> Ajustes</h1>
                 <span>Ajustar respecto al horario</span>
             </div>
             <div class="card-body">
                 <blockquote class="blockquote mb-0">
                     <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                         <div id= "lock" class="btn-group mr-2" role="group" aria-label="First group">
-                            <button (click)='setBtnLock()' type="button" class="btn {{btnLock}}">{{btnLockTxt}}</button>
+                            <button (click)='setBtnLock()' type="button" class="btn {{btnLock}}"><i class="fas {{lockIcon}}"></i> {{btnLockTxt}}</button>
                         </div>
                     </div>
                 </blockquote>

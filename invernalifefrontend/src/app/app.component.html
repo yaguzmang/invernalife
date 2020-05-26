@@ -2,34 +2,38 @@
     <!-- Sidebar -->
     <nav id="sidebar">
         <div class="sidebar-header">
-            <h3>InvernaLife</h3>
+            <img src="../assets/logo.png" class="img-fluid" alt="Responsive image">
         </div>
 
         <ul class="list-unstyled components">
-            <p *ngIf="user">Hola {{ user?.displayName }}</p>
-            <p>Navegador</p>
-            <li *ngIf="!user">
-                <a (click)= 'login()'>Login</a>    
+            <p *ngIf="user">Bienvenido, {{ user?.displayName }}</p>
+            <p><i class="far fa-eye"></i> Navegador</p>
+            <li *ngIf="!user" class="{{loginTxt}}">
+                <a (click)= 'login()'><i class="fas fa-user-check"></i> Login</a>    
             </li>
-            <li *ngIf="!user">
-                <a (click)= 'register()'>Registrarse</a>    
+            <li *ngIf="!user" class="{{registration}}">
+                <a (click)= 'register()'><i class="fas fa-user-tag"></i> Registrarse</a>    
+            </li>
+            <li *ngIf="user" class="{{administrador}}">
+                <a (click)= 'gotoAdministrador()'><i class="fas fa-address-card"></i> Administrador</a>    
+            </li>
+            <li *ngIf="user" class="{{centroControl}}">
+                <a (click)= 'gotoCentroControl()'><i class="fas fa-tools"></i> Centro de control</a>
+            </li>
+            <li *ngIf="user" class="{{datosCapturados}}">
+                <a (click)= 'gotoDatosCapturados()' ><i class="fas fa-chart-pie"></i> Datos capturados</a>
+            </li>
+            <li *ngIf="user" class="{{reportes}}">
+                <a (click)= 'gotoReportes()'><i class="fas fa-book"></i> Reportes</a>
             </li>
             <li *ngIf="user">
-                <a (click)= 'gotoAdministrador()'>Administrador</a>    
-            </li>
-            <li *ngIf="user">
-                <a (click)= 'gotoCentroControl()'>Centro de control</a>
-            </li>
-            <li *ngIf="user">
-                <a (click)= 'gotoDatosCapturados()' >Datos capturados</a>
-            </li>
-            <li *ngIf="user">
-                <a (click)= 'gotoReportes()'>Reportes</a>
-            </li>
-            <li *ngIf="user">
-                <a (click)="logout()">Logout</a>
+                <a (click)="logout()"><i class="fas fa-walking"></i> Logout</a>
             </li>
         </ul>
+
+        <div class="sidebar-footer" *ngIf="user">
+            <img src="../assets/slogan.png" class="img-fluid" alt="Responsive image">
+        </div>
     </nav>
 
     <router-outlet></router-outlet>

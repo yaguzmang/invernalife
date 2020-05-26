@@ -18,6 +18,7 @@ export class CentrocontrolComponent implements OnInit {
   btn1p = '';
   btn2p = '';
   btnLock = '';
+  lockIcon = '';
 
   btnRegadorTxt = '';
   btn1pTxt = '';
@@ -79,6 +80,7 @@ export class CentrocontrolComponent implements OnInit {
     } else {
       this.mostrar = true;
     }
+    this.actualizado = 0;
     this.getInstrucciones(+this.macetaSelect);
   }
 
@@ -98,10 +100,12 @@ export class CentrocontrolComponent implements OnInit {
         if (control['lock'] === 1) {
           this.btnLock = 'btn-dark';
           this.btnLockTxt = 'Unlock';
+          this.lockIcon = 'fas fa-lock-open';
           this.dataInstruction.lock = 1;
         } else {
           this.btnLock = 'btn-success';
           this.btnLockTxt = 'lock';
+          this.lockIcon = 'fas fa-lock';
           this.dataInstruction.lock = 0;
         }
 

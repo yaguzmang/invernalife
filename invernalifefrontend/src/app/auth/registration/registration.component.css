@@ -2,7 +2,7 @@
 {
     width: 100%;
     margin-left: 70%;
-    margin-top: 10%;
+    margin-top: 20%;
 }
 
 #pswAlert 
@@ -12,4 +12,9 @@
 
 #titulo {
     text-align: center;
+}
+
+#confirmar {
+    margin-left: 40%;
+    margin-top: 5%;
 }

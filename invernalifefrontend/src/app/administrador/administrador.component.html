@@ -1,12 +1,12 @@
 <header class>
-  <h1 id="titulo">Home</h1>
+  <h1 id="titulo"><i class="fas fa-house-user"></i> Home</h1>
 </header>
 
 
 <div class="container">
   <div class="card">
     <div class="card-header">
-      <h1>Notificaciones <span class="badge badge-secondary">{{numeroNotificaciones}}</span></h1>
+      <h1><i class="far fa-bell"></i> Notificaciones <span class="badge badge-secondary">{{numeroNotificaciones}}</span></h1>
     </div>
     <div class="card-body">
       <blockquote class="blockquote mb-0">
@@ -27,7 +27,7 @@
   </div>
 
   <div>
-    <h3 id="titulo2">Añadir maceta</h3>
+    <h3 id="titulo2"><i class="fab fa-bitbucket"></i> Añadir maceta</h3>
   </div>
   <div class="alert alert-light" role="alert" id="titulo">
     Al añadir una nueva maceta se generaran modificaciones en el centro de control. 
@@ -39,7 +39,7 @@
   </div>
 
   <div>
-    <h3 id="titulo2">Administrar Horarios</h3>
+    <h3 id="titulo2"><i class="far fa-clock"></i> Administrar Horarios</h3>
   </div>
 
   <p>Seleccionar maceta:</p>
@@ -52,19 +52,19 @@
     <div class="card-group row" *ngIf="mostrar">
       <div class="card">
           <div class="card-header">
-              <h1 id="planta1">Maceta {{macetaSelect}}</h1>
+              <h1 id="planta1"><i class="fab fa-bitbucket"></i> Maceta {{macetaSelect}}</h1>
           </div>
           <div class="card-body">
             <div class="input-group mb-3">
               <div class="input-group-prepend">
-                <span for="hlpuno" class="input-group-text" id="inputGroup-sizing-default">Luces</span>
+                <span for="hlpuno" class="input-group-text" id="inputGroup-sizing-default"><i class="far fa-lightbulb"></i> Luces</span>
               </div>
               <input ngModel #hlpunouno="ngModel" name="hlp1_1" type="time" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
               <input ngModel #hlpunodos="ngModel" name="hlp1_2" type="time" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
             </div>
             <div class="input-group mb-3">
               <div class="input-group-prepend">
-                <span for="hvpuno" class="input-group-text" id="inputGroup-sizing-default">Ventilación</span>
+                <span for="hvpuno" class="input-group-text" id="inputGroup-sizing-default"><i class="fas fa-wind"></i> Ventilación</span>
               </div>
               <input ngModel #hvpunouno="ngModel" name="hvp1_1" type="time" value="01:23:43" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
               <input ngModel #hvpunodos="ngModel" name="hvp1_2" type="time" value="01:23:43" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
@@ -75,12 +75,12 @@
     <div class="card-group row" *ngIf="mostrar">
       <div class="card">
           <div class="card-header">
-              <h1 id="riego">Riego</h1>
+              <h1 id="riego"><i class="fas fa-tint"></i> Riego</h1>
           </div>
           <div class="card-body">
               <div class="input-group mb-3">
               <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-default">Riego</span>
+                <span class="input-group-text" id="inputGroup-sizing-default"><i class="fas fa-tint"></i> Riego</span>
               </div>
               <input ngModel #hrguno="ngModel" name="hrg_1" type="time" value="00:34:12" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
               <input ngModel #hrgdos="ngModel" name="hrg_2" type="time" value="00:34:12" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">

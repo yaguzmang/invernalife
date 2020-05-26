@@ -160,10 +160,20 @@ export class AdministradorComponent implements OnInit {
 
     if (this.macetaSelect !== 0) {
       this.service.setData(this.dataHorarios, this.macetaSelect);
+      console.log('entra');
+      this.redirectTo('/administrador');
+      alert('Se han actualizado los horarios con éxito');
     }
   }
 
   addMaceta() {
     this.service.añadirMaceta(this.macetas.length);
+    this.redirectTo('/administrador');
+    alert('Se ha añadido la maceta con éxito');
+  }
+
+  redirectTo(uri: string) {
+    this.router.navigateByUrl('/centrocontrol', {skipLocationChange: true}).then(() =>
+    this.router.navigate([uri]));
   }
 }
