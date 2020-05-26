@@ -20,6 +20,7 @@ export class DatoscapturadosComponent implements OnInit {
     this.user.subscribe((user) => {
       if (user) {
         this.userID = user;
+        this.getData();
       } else {
         this.userID = null;
       }
@@ -27,27 +28,34 @@ export class DatoscapturadosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.datosList = [];
-    let s = this.service.getDatosCapturados(this.userID);
-    s.snapshotChanges()
-    .subscribe(data => {
-      const datos = data[1].payload.toJSON();
-      const nDatos = datos['numero_datos']['numero_datos'];
+    this.getData();
+  }
 
-      for (let i = 0; i < nDatos; i++) {
-        const dato = datos['dato' + i];
-        const ig = dato['invernadero'];
-        const m1 = dato['maceta1'];
-        const m2 = dato['maceta2'];
-        const fecha = dato['fecha_dato'];
+  getData() {
+    if(this.userID) {
+      this.datosList = [];
+      let s = this.service.getDatosCapturados(this.userID);
+      console.log('entra2');
+      s.snapshotChanges()
+      .subscribe(data => {
+        const datos = data[1].payload.toJSON();
+        const nDatos = datos['numero_datos']['numero_datos'];
 
-        let newDato = new Datos(fecha['fecha'], ig['co2'], ig['humedad_ambiente'], ig['ph'], ig['temperatura'],
-        m1['humedad_suelo'], m2['humedad_suelo']);
+        for (let i = 0; i < nDatos; i++) {
+          const dato = datos['dato' + i];
+          const ig = dato['invernadero'];
+          const m1 = dato['maceta1'];
+          const m2 = dato['maceta2'];
+          const fecha = dato['fecha_dato'];
 
-        this.datosList.push(newDato);
-      }
-    });
-    console.log(this.datosList);
+          let newDato = new Datos(fecha['fecha'], ig['co2'], ig['humedad_ambiente'], ig['ph'], ig['temperatura'],
+          m1['humedad_suelo'], m2['humedad_suelo']);
+
+          this.datosList.push(newDato);
+        }
+      });
+      console.log(this.datosList);
+    }
   }
 
 }

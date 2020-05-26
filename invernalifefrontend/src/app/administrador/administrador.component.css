@@ -1,12 +1,13 @@
 .card  {
-    margin:10%;
+    margin-bottom: 5%;
     width: 100%;
 }
 
 header {
     width: 100%;
-    margin-left: 110%;
+    margin-left: 40%;
     margin-top: 10%;
+    margin-bottom: 10%;
 }
 
 .card-header {
@@ -15,7 +16,7 @@ header {
 
 .container {
     width: 100%;
-    margin-left: 10%;
+    margin-left: 40%;
 }
 
 #titulo {
@@ -27,12 +28,11 @@ header {
 }
 
 #actualizar {
-    margin-left: 35%;
-    margin-top: 5%;
+    margin-left: 43%;
     margin-bottom: 5%;
 }
 
 #añadir {
-    margin-left: 40%;
+    margin-left: 45%;
     margin-bottom: 5%;
 }

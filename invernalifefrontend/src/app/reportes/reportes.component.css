@@ -1,13 +1,20 @@
 header {
     width: 100%;
-    margin-left: 70%;
+    margin-left: 20%;
     margin-top: 10%;
+    margin-bottom: 10%;
 }
 
 #titulo {
     text-align: center;
 }
 
+.card-header {
+    text-align: center;
+}
+
 .container {
-    margin-left: 70%;
+    width: 100%;
+    margin-left: 20%;
+    margin-bottom: 10%;
 }

@@ -16,6 +16,8 @@ export class AdministradorComponent implements OnInit {
   user: Observable<firebase.User>;
   userID: firebase.User = null;
 
+  notificaciones: any[] = [];
+
   dataHorarios = {
     'maceta': {
       'horario_luz': '',
@@ -32,13 +34,14 @@ export class AdministradorComponent implements OnInit {
   mostrar = false;
   space = '';
 
-  public numeroNotificaciones: number = 0;
+  public numeroNotificaciones: number = this.notificaciones.length;
 
   constructor(private service: AdministradorServiceService, private router: Router, private afAuth: AngularFireAuth) {
     this.user = afAuth.authState;
     this.user.subscribe((user) => {
       if (user) {
         this.userID = user;
+        this.getNotificaciones();
       } else {
         this.userID = null;
       }
@@ -67,6 +70,51 @@ export class AdministradorComponent implements OnInit {
       this.mostrar = true;
     }
     this.getHorarios(this.macetaSelect);
+  }
+
+  getNotificaciones() {
+    if (this.userID) {
+      let s = this.service.getHorarios(this.userID);
+      s.snapshotChanges()
+      .subscribe(data => {
+        const datos = data[1].payload.toJSON();
+        const nDatos = datos['numero_datos']['numero_datos'];
+
+        for (let i = 0; i < nDatos; i++) {
+          const dato = datos['dato' + i];
+          const ig = dato['invernadero'];
+          const fecha = dato['fecha_dato'];
+
+          let datoinfo = '';
+          let error = false;
+          if (+ig['co2']  === 0) {
+            datoinfo = 'CO2';
+            error = true;
+          } else if (+ig['humedad_ambiente'] === 0) {
+            datoinfo = 'Humedad de ambiente';
+            error = true;
+          } else if (+ig['ph'] === 0) {
+            datoinfo = 'PH';
+            error = true;
+          } else if (+ig['temperatura'] === 0) {
+            datoinfo = 'Temperatura';
+            error = true;
+          }
+
+          if (error === true) {
+            this.notificaciones.push({
+              titulo: 'Advertencia',
+              small: 'Importante',
+              p: `El dato ${datoinfo}, sensado en la fecha y hora \n ${fecha['fecha']}`,
+              p2: 'posee un valor de 0',
+              small2: 'Se recomienda revisar el sensor'
+            });
+            error = false;
+            this.numeroNotificaciones = this.notificaciones.length;
+          }
+        }
+      });
+    }
   }
 
   getHorarios(macetaSelect: number) {

@@ -3,8 +3,102 @@
 </header>
 
 <div class="container">
-    <h2>Yo habia ponido mis reportes aki</h2>
-    <div id="imagen">
-        <img src="../../assets/yohabiaponido.png">
+    <p>¿Qué desea ver?</p>
+    <select [(ngModel)]="opcionSeleccionada" (change)="capturar()" class="form-control">
+        <option value="0">Selecciona una opción</option>
+        <option value="1">Estadísticos</option>
+        <option value="2">Gráficos</option>
+    </select>
+    <br>
+
+    <h3 *ngIf="mostrarEstadisticas">Estadísticas relevantes</h3>
+    <br>
+    <div class="card-group row" *ngIf="mostrarEstadisticas">
+        <div class="card">
+            <div class="card-header">
+                <h1 id="planta1">Humedad Ambiente</h1>
+            </div>
+            <div class="card-body">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Media: </span>
+                  </div>
+                  <input type="text" value="{{mediaHA}}" readonly class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                </div>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Desviación estandar: </span>
+                  </div>
+                  <input type="text" value="{{desvEsHA}}" readonly class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                </div>
+            </div>  
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h1 id="planta1">Temperatura</h1>
+            </div>
+            <div class="card-body">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Media: </span>
+                  </div>
+                  <input type="text" value="{{mediaTemp}}" readonly class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                </div>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Desviación estandar: </span>
+                  </div>
+                  <input type="text" value="{{desvEsTemp}}" readonly class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                </div>
+            </div>  
+        </div>
+    </div>
+
+    <h3 *ngIf="mostrarGraficos" id="titulo">Gráficos</h3>
+    <br>
+    <div class="card-group row col-12" *ngIf="mostrarGraficos">
+        <div class="card">
+            <div class="card-header">
+                <h1 id="planta1">Humedad Ambiente</h1>
+            </div>
+            <div class="card-body">
+                <div style="display: block;">
+                  <canvas baseChart width="600" height="600"
+                      [datasets]="lineChartData"
+                      [labels]="lineChartLabels"
+                      [options]="lineChartOptions"
+                      [colors]="lineChartColors"
+                      [legend]="lineChartLegend"
+                      [chartType]="lineChartType"
+                      [plugins]="lineChartPlugins"
+                      (chartHover)="chartHovered($event)"
+                      (chartClick)="chartClicked($event)">
+                    </canvas>
+                </div>
+            </div>  
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+              <h1 id="planta1">Temperatura</h1>
+              <br>
+              <br>
+          </div>
+          <div class="card-body">
+              <div style="display: block;">
+                <canvas baseChart width="600" height="600"
+                    [datasets]="lineChartDataTemp"
+                    [labels]="lineChartLabels"
+                    [options]="lineChartOptions"
+                    [colors]="lineChartColors"
+                    [legend]="lineChartLegend"
+                    [chartType]="lineChartType"
+                    [plugins]="lineChartPlugins"
+                    (chartHover)="chartHovered($event)"
+                    (chartClick)="chartClicked($event)">
+                </canvas>
+              </div>
+          </div> 
+        </div> 
     </div>
 </div>

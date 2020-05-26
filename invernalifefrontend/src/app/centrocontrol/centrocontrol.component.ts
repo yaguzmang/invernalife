@@ -42,8 +42,8 @@ export class CentrocontrolComponent implements OnInit {
   actualizado = 0;
 
   macetas = [];
-  opcionSeleccionada = 0;
-  macetaSelect = 0;
+  opcionSeleccionada = '0';
+  macetaSelect = '0';
   mostrar = false;
   space = '';
 
@@ -69,17 +69,17 @@ export class CentrocontrolComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      this.getInstrucciones(this.macetaSelect);
+      this.getInstrucciones(+this.macetaSelect);
   }
 
   capturar() {
     this.macetaSelect = this.opcionSeleccionada;
-    if (this.macetaSelect === 0) {
+    if (this.macetaSelect === '0') {
       this.mostrar = false;
     } else {
       this.mostrar = true;
     }
-    this.getInstrucciones(this.macetaSelect);
+    this.getInstrucciones(+this.macetaSelect);
   }
 
   getInstrucciones(macetaSelect: number) {
@@ -259,7 +259,7 @@ export class CentrocontrolComponent implements OnInit {
 
   // Este método actualiza los valores de los componentes del invernadero en la DB.
   setData() {
-    this.service.setData(this.dataInstruction, this.macetaSelect);
+    this.service.setData(this.dataInstruction, +this.macetaSelect);
   }
 
 }
