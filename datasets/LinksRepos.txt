@@ -1,3 +1,0 @@
-https://www.datos.gov.co/dataset/Mapa-PH-Guajira/jvkp-nr2n------------- PH
-https://datosabiertos.metropol.gov.co/dataset/mediciones-estaciones-calidad-del-aire ---------- CO2
-https://data.gov.uk/dataset/3943e37a-70c1-47f6-9dc9-facb1d88438d/soil-temperature-soil-moisture-air-temperature-and-relative-humidity-for-vegetation-at-siksik-creek-north-west-territories-canada TEMP AND HUMETY
