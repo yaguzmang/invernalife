@@ -10,6 +10,7 @@ ruta2 = '../CO2.txt'
 cred = credentials.Certificate('../invernalife-firebase-adminsdk-r6fz2-2c4537699b.json')
 
 firebase_admin.initialize_app(cred, {'databaseURL': 'https://invernalife.firebaseio.com/'})
+#y6glVJDL7GY2ZkXJXPhW479sTGH3 usuario establecido
 ref = db.reference('y6glVJDL7GY2ZkXJXPhW479sTGH3/datos/')
 
 
