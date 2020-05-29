@@ -14,28 +14,29 @@ firebase_admin.initialize_app(cred, {'databaseURL': 'https://invernalife.firebas
 ref = db.reference('y6glVJDL7GY2ZkXJXPhW479sTGH3/datos/')
 refControl = db.reference('y6glVJDL7GY2ZkXJXPhW479sTGH3/control/')
 
-def  contarDatos():
-    diccionario=ref.get()
-    nDatos=diccionario["numero_datos"]["numero_datos"]
-    return nDatos
-
-def  aumentarDatos():
-    invernadero_ref = ref.child('numero_datos')
-    invernadero_ref.update({
-        'numero_datos': contarDatos()+1
+#method to count the number of data in the database
+def  countData():
+    dictionary=ref.get()
+    nData=dictionary["numero_datos"]["numero_datos"]
+    return nData
+#increase the variable that controls the number of data entered in the database
+def  increaseData():
+    greenhouse_ref = ref.child('numero_datos')
+    greenhouse_ref.update({
+        'numero_datos': countData()+1
     })
+#counts the number of existing pots in the database
+def  countPlantpots():
+    dictionary=refControl.get()
+    nPlantpots=dictionary["numero_macetas"]
+    return nPlantpots
 
-def  contarMacetas():
-    diccionario=refControl.get()
-    nMacetas=diccionario["numero_macetas"]
-    return nMacetas
 
+#send the collected data to the database
+def SendPlantpotData():
 
-
-def EnviarDatosmaceta():
-
-    invernadero_ref = ref.child("dato"+str(contarDatos()))
-    invernadero_ref.set({
+    greenhouse_ref = ref.child("dato"+str(countData()))
+    greenhouse_ref.set({
         'fecha_dato':{
                 'fecha': tiempo
          },
@@ -56,65 +57,67 @@ def EnviarDatosmaceta():
             'humedad_suelo': random.randint(20, 30)
         }
     })
-    aumentarDatos()
+    increaseData()
 
-#EnviarDatosmaceta()
+#SendPlantpotData()
 
-def verificarHorario(h_inicio, h_fin):
+#Verify that the time that the database arrives is between the local time to make the decision to turn on or off any actuator
+def checkSchedule(h_inicio, h_fin):
     now = datetime.datetime.now()
     time3 = str(now.strftime("%H:%M"))
     h_inicio = datetime.datetime.strptime(h_inicio, '%H:%M').time()
     h_fin = datetime.datetime.strptime(h_fin, '%H:%M').time()
     time2 = datetime.datetime.strptime(time3, '%H:%M').time()
     return (h_inicio<= time2 and time2 <= h_fin)
+    
+#get if there was a switch on or off whether manual or automatic
+def getOnOff():
+    threading.Timer(5.0, getOnOff).start()
+    dictionary=refControl.get()
 
-def ObtenerOnOff():
-    threading.Timer(5.0, ObtenerOnOff).start()
-    diccionario=refControl.get()
-
-    for i in range(1,contarMacetas()+1):
-        lock=diccionario["lock"]
-        maceta = "maceta"+str(i)
+    for i in range(1,countPlantpots()+1):
+        lock=dictionary["lock"]
+        plantpots = "maceta"+str(i)
         
-        print('**************** '+maceta.upper()+' ****************')
-        luzTime = diccionario[maceta]["horario_luz"]
-        ventiladorTime = diccionario[maceta]["horario_ventilador"]
-        regadoraTime = diccionario["regadora"]["horario_regadora"]
+        print('**************** '+plantpots.upper()+' ****************')
+        luzTime = dictionary[plantpots]["horario_luz"]
+        ventiladorTime = dictionary[plantpots]["horario_ventilador"]
+        regadoraTime = dictionary["regadora"]["horario_regadora"]
         if(lock == 1):
             print
-            if(verificarHorario(luzTime.split('-')[0],luzTime.split('-')[1])):
-                print('LUZ-->ENCENDIDA')
+            if(checkSchedule(luzTime.split('-')[0],luzTime.split('-')[1])):
+                print('LIGHT -> ON')
             else:
-                print('LUZ-->APAGADA')
+                print('LIGHT -> OFF')
                 
-            if(verificarHorario(ventiladorTime.split('-')[0],ventiladorTime.split('-')[1])):
-                print('VENTILADOR-->ENCENDIDO') 
+            if(checkSchedule(ventiladorTime.split('-')[0],ventiladorTime.split('-')[1])):
+                print('FAN -> ON') 
             else:
-                print('VENTILADOR-->APAGADO')
+                print('FAN -> OFF')
 
-            if(verificarHorario(regadoraTime.split('-')[0],regadoraTime.split('-')[1])):
-                print('REGADORA-->ENCENDIDA')
+            if(checkSchedule(regadoraTime.split('-')[0],regadoraTime.split('-')[1])):
+                print('SHOWER -> ON')
             else:
-                print('REGADORA-->APAGADA')
+                print('SHOWER -> OFF')
 
 
             
         else:
-            if(diccionario[maceta]["luz"]==1):
-                print('LUZ-->ENCENDIDA')
+            if(dictionary[plantpots]["luz"]==1):
+                print('LIGHT -> ON')
             else:
-                print('LUZ-->APAGADA')
+                print('LIGHT -> OFF')
 
-            if(diccionario[maceta]["ventilador"]==1):
+            if(dictionary[plantpots]["ventilador"]==1):
                 print('VENTILADOR-->ENCENDIDA')
             else:
                 print('VENTILADOR-->APAGADA')
 
-            if(diccionario["regadora"]["regadora"]==1):
-                print('REGADORA-->ENCENDIDA')
+            if(dictionary["regadora"]["regadora"]==1):
+                print('SHOWER -> ON')
             else:
-                print('REGADORA-->APAGADA')
+                print('SHOWER -> OFF')
     
             
-ObtenerOnOff()
+getOnOff()
 

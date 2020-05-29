@@ -5,14 +5,16 @@ class DatosPlanta():
     import random
     import time
 
-    tiempo = time.strftime("%d-%m-%Y %H:%M:%S", time.localtime())
+    time = time.strftime("%d-%m-%Y %H:%M:%S", time.localtime())
     cred = credentials.Certificate('../invernalife-firebase-adminsdk-r6fz2-2c4537699b.json')
     firebase_admin.initialize_app(cred, {'databaseURL': 'https://invernalife.firebaseio.com/'})
     ref = db.reference('y6glVJDL7GY2ZkXJXPhW479sTGH3/datos/')
 
-    def EnviarHumedadSuelo(self, humedad_suelo):
-     invernadero_ref = self.ref.child(self.tiempo)
-     invernadero_ref.set({
-        'planta_humedad_suelo': { 'HUMEDAD SUELO': humedad_suelo}
+
+#send the moisture soil data to the database
+    def sendMoistureSoil(self, moisture_soil):
+     greenhouse_ref = self.ref.child(self.time)
+     greenhouse_ref.set({
+        'planta_humedad_suelo': { 'HUMEDAD SUELO': moisture_soil}
       })   
-     return(invernadero_ref) 
+     return(greenhouse_ref) 

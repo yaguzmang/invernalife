@@ -92,7 +92,7 @@ listaDatosFechas.sort()
 
 
 
-def EnviarDatosPlanta():
+def EnviarDatosMaceta():
     
     for i in range(0,len(listaDatosCo)):
         invernadero_ref = ref.child("dato"+str(contarDatos()))
@@ -118,7 +118,7 @@ def EnviarDatosPlanta():
         })
         aumentarDatos()
 
-EnviarDatosPlanta()
+EnviarDatosMaceta()
 
 
     
