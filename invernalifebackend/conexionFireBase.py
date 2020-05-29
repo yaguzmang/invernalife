@@ -9,10 +9,10 @@ import datetime
 
 tiempo = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
-cred = credentials.Certificate('C:/Users/Santiago/Desktop/invernalife-firebase-adminsdk-r6fz2-2c4537699b.json')
+cred = credentials.Certificate('../invernalife-firebase-adminsdk-r6fz2-2c4537699b.json')
 firebase_admin.initialize_app(cred, {'databaseURL': 'https://invernalife.firebaseio.com/'})
-ref = db.reference('LpRcViSCgVZCaQVeAYP1mxAtzm02/datos/')
-refControl = db.reference('123456/control/')
+ref = db.reference('y6glVJDL7GY2ZkXJXPhW479sTGH3/datos/')
+refControl = db.reference('y6glVJDL7GY2ZkXJXPhW479sTGH3/control/')
 
 def  contarDatos():
     diccionario=ref.get()
@@ -75,8 +75,8 @@ def ObtenerOnOff():
     for i in range(1,contarMacetas()+1):
         lock=diccionario["lock"]
         maceta = "maceta"+str(i)
-        print(i)
-        print('********'+maceta)
+        
+        print('**************** '+maceta.upper()+' ****************')
         luzTime = diccionario[maceta]["horario_luz"]
         ventiladorTime = diccionario[maceta]["horario_ventilador"]
         regadoraTime = diccionario["regadora"]["horario_regadora"]
@@ -116,5 +116,5 @@ def ObtenerOnOff():
                 print('REGADORA-->APAGADA')
     
             
-#ObtenerOnOff()
+ObtenerOnOff()
 

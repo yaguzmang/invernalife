@@ -8,7 +8,7 @@ class DatosGenerales():
     tiempo = time.strftime("%d-%m-%Y %H:%M:%S", time.localtime())
     cred = credentials.Certificate('../invernalife-firebase-adminsdk-r6fz2-2c4537699b.json')
     firebase_admin.initialize_app(cred, {'databaseURL': 'https://invernalife.firebaseio.com/'})
-    ref = db.reference()
+    ref = db.reference('y6glVJDL7GY2ZkXJXPhW479sTGH3/datos/')
     
     def EnviarDatosGenerales(self, temperatura,humedad_ambiente, co2, ph):
         invernadero_ref = self.ref.child(self.tiempo)
