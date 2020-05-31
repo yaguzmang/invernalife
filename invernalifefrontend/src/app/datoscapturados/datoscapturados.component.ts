@@ -48,10 +48,17 @@ export class DatoscapturadosComponent implements OnInit {
           const m2 = dato['maceta2'];
           const fecha = dato['fecha_dato'];
 
-          let newDato = new Datos(fecha['fecha'], ig['co2'], ig['humedad_ambiente'], ig['ph'], ig['temperatura'],
-          m1['humedad_suelo'], m2['humedad_suelo']);
+          const newFecha = fecha['fecha'].split(' ')[0];
+          const fechaAño = newFecha.split('-')[0];
+          const fechaMes = newFecha.split('-')[1];
+          const fechaDia = newFecha.split('-')[2];
 
-          this.datosList.push(newDato);
+          if (fechaAño === '2019' && fechaMes === '06' && fechaDia === '03') {
+            let newDato = new Datos(fecha['fecha'], ig['co2'], ig['humedad_ambiente'], ig['ph'], ig['temperatura'],
+            m1['humedad_suelo'], m2['humedad_suelo']);
+
+            this.datosList.push(newDato);
+          }
         }
       });
       console.log(this.datosList);

@@ -25,18 +25,68 @@ export class ReportesComponent implements OnInit {
 
   mediaTemp: String;
   mediaHA: String;
+  mediaCO2: String;
+  mediaPH: String;
   desvEsTemp: String;
   desvEsHA: String;
+  desvEsCO2: String;
+  desvEsPH: String;
 
   // Variables necesarias para los graficos
   public lineChartData: ChartDataSets[] = [];
   public lineChartLabels: Label[] = [];
-  public lineChartColors: Color[] = [];
   public lineChartDataTemp: ChartDataSets[] = [];
+  public lineChartDataCO2: ChartDataSets[] = [];
+  public lineChartDataPH: ChartDataSets[] = [];
+
+  public lineChartColors: Color[] = [
+    { // red
+      backgroundColor: 'rgba(255, 0, 0, 0.3)',
+      borderColor: 'red',
+      pointBackgroundColor: 'rgba(148,159,177,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+    }
+  ];
+
+  public lineChartColorsTemp: Color[] = [
+    { // green
+      backgroundColor: 'rgba(122, 240, 77, 0.3)',
+      borderColor: 'green',
+      pointBackgroundColor: 'rgba(148,159,177,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+    }
+  ];
+
+  public lineChartColorsCO2: Color[] = [
+    { // blue
+      backgroundColor: 'rgba(74, 130, 222, 0.3)',
+      borderColor: 'blue',
+      pointBackgroundColor: 'rgba(148,159,177,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+    }
+  ];
+
+  public lineChartColorsPH: Color[] = [
+    { // yellow
+      backgroundColor: 'rgba(247, 198, 58, 0.3)',
+      borderColor: 'yellow',
+      pointBackgroundColor: 'rgba(148,159,177,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+    }
+  ];
 
   public lineChartOptions: (ChartOptions) = {
     responsive: true
   };
+
   public lineChartLegend = true;
   public lineChartType = 'line';
   public lineChartPlugins = [pluginAnnotations];
@@ -91,10 +141,17 @@ export class ReportesComponent implements OnInit {
           const m2 = dato['maceta2'];
           const fecha = dato['fecha_dato'];
 
-          let newDato = new Datos(fecha['fecha'], ig['co2'], ig['humedad_ambiente'], ig['ph'], ig['temperatura'],
-          m1['humedad_suelo'], m2['humedad_suelo']);
+          const newFecha = fecha['fecha'].split(' ')[0];
+          const fechaAño = newFecha.split('-')[0];
+          const fechaMes = newFecha.split('-')[1];
+          const fechaDia = newFecha.split('-')[2];
 
-          this.datosList.push(newDato);
+          if (fechaAño === '2019' && fechaMes === '06' && fechaDia === '03') {
+            let newDato = new Datos(fecha['fecha'], ig['co2'], ig['humedad_ambiente'], ig['ph'], ig['temperatura'],
+            m1['humedad_suelo'], m2['humedad_suelo']);
+
+            this.datosList.push(newDato);
+          }
         }
         this.calcularEstadisticos();
         this.realizarGraficos();
@@ -107,42 +164,65 @@ export class ReportesComponent implements OnInit {
     const nDatos = this.datosList.length;
     let mediaTemp = 0;
     let mediaHA = 0;
+    let mediaCO2 = 0;
+    let mediaPH = 0;
     this.datosList.forEach((dato) => {
       mediaTemp += +dato.temperatura;
       mediaHA += +dato.humedad_ambiente;
+      mediaCO2 += +dato.co2;
+      mediaPH += +dato.ph;
     });
     mediaTemp = mediaTemp / nDatos;
     mediaHA = mediaHA / nDatos;
+    mediaCO2 = mediaCO2 / nDatos;
+    mediaPH = mediaPH / nDatos;
 
     let desvEsTemp = 0;
     let desvEsHA = 0;
+    let desvEsCO2 = 0;
+    let desvEsPH = 0;
 
     this.datosList.forEach((dato) => {
       desvEsTemp += Math.pow(+dato.temperatura - mediaTemp, 2);
       desvEsHA += Math.pow(+dato.humedad_ambiente - mediaHA, 2);
+      desvEsCO2 += Math.pow(+dato.co2 - mediaCO2, 2);
+      desvEsPH += Math.pow(+dato.ph - mediaPH, 2);
     });
 
     desvEsTemp = Math.sqrt(desvEsTemp / (nDatos - 1));
     desvEsHA = Math.sqrt(desvEsHA / (nDatos - 1));
+    desvEsCO2 = Math.sqrt(desvEsCO2 / (nDatos - 1));
+    desvEsPH = Math.sqrt(desvEsPH / (nDatos - 1));
 
     this.mediaTemp = mediaTemp.toFixed(3);
     this.mediaHA = mediaHA.toFixed(3);
+    this.mediaCO2 = mediaCO2.toFixed(3);
+    this.mediaPH = mediaPH.toFixed(3);
+
     this.desvEsTemp = desvEsTemp.toFixed(3);
     this.desvEsHA = desvEsHA.toFixed(3);
+    this.desvEsCO2 = desvEsCO2.toFixed(3);
+    this.desvEsPH = desvEsPH.toFixed(3);
   }
 
   realizarGraficos() {
     const dataHA = [];
     const dataTemp = [];
+    const dataCO2 = [];
+    const dataPH = [];
     const labels = [];
     this.datosList.forEach((dato) => {
       dataHA.push(+dato.humedad_ambiente);
       dataTemp.push(+dato.temperatura);
-      labels.push(dato.fecha_hora);
+      dataCO2.push(+dato.co2);
+      dataPH.push(+dato.ph);
+      labels.push(dato.fecha_hora.split(' ')[1]);
     });
 
     this.lineChartData = [{ data: dataHA, label: 'Humedad Ambiente'}];
     this.lineChartDataTemp = [{ data: dataTemp, label: 'Temperatura'}];
+    this.lineChartDataCO2 = [{ data: dataCO2, label: 'CO2'}];
+    this.lineChartDataPH = [{ data: dataPH, label: 'PH'}];
     this.lineChartLabels = labels;
   }
 
